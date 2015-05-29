@@ -37,25 +37,33 @@
         </div>
         <article class="markdown-body">
           <h3>
-<a id="Use Case:" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+<a id="UseCase" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use Case:</h3>
 
 <p>Currently, there are multiple banking and insurance industries who are trying to implement their business models on hadoop technologies. 
 Main issue they are facing is to convert the existing mainframe file layouts to hadoop file layout. This is extremely painful process as there multiple complications in conversion.</p>
 
 <h3>
-<a id="Pain-Areas:" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+<a id="PainAreas" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pain-Areas:</h3>
 
-<p>Below are some of the list:
-1. EBCDIC format to ASCII conversion
-2. Field separations are based on offset instead of separators. 
-3. array <structures> is determined run time using to previous fields (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )
-4. REDEFINES of particular previous fields.
+<p>Below are some of the list:<br>
+1. EBCDIC format to ASCII conversion<br>
+2. Field separations are based on offset instead of separators. <br>
+3. array <structures> is determined run time using to previous fields (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )<br>
+4. REDEFINES of particular previous fields.<br>
 5. ...</p>
 
 <h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a id="work-around" class="anchor" href="#work-around" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current work arounds:</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Most of the industries are adding an additional layers in between mainframe and hadoop to convert the formats. And some are converting mainframes files to desired formats in mainframe systems and then transferring.</p>
+<h3>
+<a id="proposed-solution" class="anchor" href="#proposed-dolution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Current work arounds:</h3>
+
+<p>Develop a custom Serde which exhibits below properties:<br>
+1. Cobol Layout is supplied through TBL PROPERTIES similar to AvroSerde and it will build the hive table definition automatically.<br>
+2. Deserailzer should be able to extract the field data based on the offset at runtime.<br>
+3. EBCDIC to ASCII to conversion is enabled through a property in TBLPROPERTIES<br>
+4. ....<br></p>
 
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
