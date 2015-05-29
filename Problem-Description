@@ -1,0 +1,58 @@
+Use Case:
+Currently, there are multiple banking and insurance industries who are trying to implement their business models on hadoop technologies. 
+Main issue they are facing is to convert the existing mainframe file layouts to hadoop file layout. This is extremely painful process as there multiple complications in conversion. 
+
+Pain Areas:
+Below are some of the list:
+1. EBCDIC format to ASCII conversion
+2. Field separations are based on offset instead of separators. 
+3. array <structures> is determined run time using to previous fields (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )
+4. REDEFINES of particular previous fields.
+5. ...
+
+Current work around:
+Most of the industries are adding an additional layers in between mainframe and hadoop to convert the formats.
+
+Proposed Solution:
+Develop a custom Serde which exhibits below properties:
+1. Cobol Layout is supplied through TBL PROPERTIES similar to AvroSerde and it will build the hive table definition automatically.
+2. Deserailzer should be able to extract the field data based on the offset at runtime.
+3. EBCDIC to ASCII to conversion is enabled through a property in TBLPROPERTIES
+4. ...
+
+Benefits:
+1. Easier migration from mainframe systems to hadoop
+2. Removal of additional layers.
+3. ..
+
+Example:
+
+Input Mainframe file:
+
+Ram Manohar 10123123123123123123123123123123king
+heheh        5012012012012012comment
+Lippi        3001001001darling
+Kanu         6006006006006006006loving
+
+Cobol Layout:
+01 WS-VAR. 
+   05 WS-NAME PIC X(12). 
+   05 WS-MARKS-LENGTH PIC 9(2). 
+   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+      10 WS-MARK PIC 999. 
+   05 WS-NICKNAME PIC X(6)
+
+Hive DDL:
+
+CREATE TABLE Cobol2Hive
+ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
+LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
+TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+
+Outptut:
+select * from Cobol2Hive;
+OK
+Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
+heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
+Lippi       	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
+Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
