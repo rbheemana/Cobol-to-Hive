@@ -77,35 +77,35 @@ Main issue they are facing is to convert the existing mainframe file layouts to 
 <b>Input Mainframe file:</b><br>
 <pre>
 Ram Manohar 10123123123123123123123123123123king
-<br>heheh        5012012012012012comment
-<br>Lipi         3001001001darling
-<br>Kanu         6006006006006006006loving
+heheh        5012012012012012comment
+Lipi         3001001001darling
+Kanu         6006006006006006006loving
 </pre>
 <br><b>Cobol Layout:</b><br>
-
-<br>01 WS-VAR. 
-<br>   05 WS-NAME PIC X(12). 
-<br>   05 WS-MARKS-LENGTH PIC 9(2). 
-<br>   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
-<br>      10 WS-MARK PIC 999. 
-<br>   05 WS-NICKNAME PIC X(6)
-</code>
+<pre>
+01 WS-VAR. 
+   05 WS-NAME PIC X(12). 
+   05 WS-MARKS-LENGTH PIC 9(2). 
+   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+      10 WS-MARK PIC 999. 
+   05 WS-NICKNAME PIC X(6)
+</pre>
 <br><b>Hive DDL:</b><br>
-<code>
-<br>CREATE TABLE Cobol2Hive
-<br>ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
-<br>LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
-<br>TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
-</code>
+<pre>
+CREATE TABLE Cobol2Hive
+ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
+LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
+TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+</pre>
 <br><b>Outptut:</b><br>
-<code>
+<pre>
 select * from Cobol2Hive;
 OK
-<br>Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
-<br>heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
-<br>Lipi        	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
-<br>Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
-</code>
+Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
+heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
+Lipi        	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
+Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
+</pre>
 
 
 <h3>
