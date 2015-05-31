@@ -84,7 +84,7 @@ heheh        5012012012012012comment
 Lip i        3001001001darling
 Kanu         6006006006006006006loving
 </code>
-<bold>Cobol Layout:</bold><br>
+<br><bold>Cobol Layout:</bold><br>
 <code>
 01 WS-VAR. 
    05 WS-NAME PIC X(12). 
@@ -93,15 +93,15 @@ Kanu         6006006006006006006loving
       10 WS-MARK PIC 999. 
    05 WS-NICKNAME PIC X(6)
 </code>
-<bold>Hive DDL:</bold><br>
+<br><bold>Hive DDL:</bold><br>
 <code>
 CREATE TABLE Cobol2Hive
 ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
 LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
 TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
 </code>
-<bold>Outptut:</bold><br>
-<code></code>
+<br><bold>Outptut:</bold><br>
+<code>
 select * from Cobol2Hive;
 OK
 Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
