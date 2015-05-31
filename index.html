@@ -71,6 +71,44 @@ Main issue they are facing is to convert the existing mainframe file layouts to 
 <p>1. Easier migration from mainframe systems to hadoop<br>
 2. Removal of additional layers.<br>
 3. ..<br></p>
+
+<h3>
+<a id="Example:" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Benefits:</h3>
+<p><code>
+  
+  
+  Input Mainframe file:
+
+Ram Manohar 10123123123123123123123123123123king
+heheh        5012012012012012comment
+Lippi        3001001001darling
+Kanu         6006006006006006006loving
+
+Cobol Layout:
+01 WS-VAR. 
+   05 WS-NAME PIC X(12). 
+   05 WS-MARKS-LENGTH PIC 9(2). 
+   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+      10 WS-MARK PIC 999. 
+   05 WS-NICKNAME PIC X(6)
+
+Hive DDL:
+
+CREATE TABLE Cobol2Hive
+ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
+LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
+TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+
+Outptut:
+select * from Cobol2Hive;
+OK
+Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
+heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
+Lippi       	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
+Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
+</code></p>
+
+
 <h3>
 <a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
