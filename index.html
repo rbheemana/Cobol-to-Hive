@@ -83,28 +83,28 @@ Kanu         6006006006006006006loving
 
 <br><b>Cobol Layout:</b><br>
 
-01 WS-VAR. 
-   05 WS-NAME PIC X(12). 
-   05 WS-MARKS-LENGTH PIC 9(2). 
-   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
-      10 WS-MARK PIC 999. 
-   05 WS-NICKNAME PIC X(6)
+<br>01 WS-VAR. 
+<br>   05 WS-NAME PIC X(12). 
+<br>   05 WS-MARKS-LENGTH PIC 9(2). 
+<br>   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+<br>      10 WS-MARK PIC 999. 
+<br>   05 WS-NICKNAME PIC X(6)
 </code>
 <br><b>Hive DDL:</b><br>
 <code>
-CREATE TABLE Cobol2Hive
-ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
-LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
-TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+<br>CREATE TABLE Cobol2Hive
+<br>ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
+<br>LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
+<br>TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
 </code>
 <br><b>Outptut:</b><br>
 <code>
 select * from Cobol2Hive;
 OK
-Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
-heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
-Lipi        	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
-Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
+<br>Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
+<br>heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
+<br>Lipi        	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
+<br>Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
 </code>
 
 
