@@ -30,7 +30,8 @@ public class CobolCopybook {
 	List<ObjectInspector> fieldOIs;
 
 	public CobolCopybook(String layout){
-		//System.out.println(layout);
+		/*Split the cobol layout seperate lines using ". " as delimiter, space is also included because
+		  dot can also occur in between Picture clause.*/
 		this.fieldLines = Arrays.asList(layout.split("\\.\\s"));
 		this.fieldNames = new LinkedList<String>();
 		this.innerFieldNames = new LinkedList<String>();
@@ -40,12 +41,12 @@ public class CobolCopybook {
 		
 		this.fieldProperties = new ArrayList<List<Map<String,Integer>>>();
 		new LinkedList<CobolFieldDecl>();
-		//getLayout();
-		getLayoutNew();
+		
+		buildLayout();
 		
 	}
-	
-	private void getLayoutNew() {
+	/* Map and extract hive column names and types info from cobol layout*/
+	private void buildLayout() {
 		CobolStruct cs = null;
 		LinkedList<Integer> groupLevelNos = new LinkedList<Integer>();
 		
@@ -85,7 +86,7 @@ public class CobolCopybook {
 		
 	}
 
-	
+	/* Add column names and types to list */ 
 	private void setFieldVars(String fieldName, String fieldType){
 		innerFieldNames.clear();
 		fieldNames.add(fieldName);
@@ -96,6 +97,8 @@ public class CobolCopybook {
 		columnNos++;
 		optimize();
 	}
+	
+	/* optimize the column types, currently it extracts all the variables under level 01 as single struct */
 	private void optimize(){
 		
 //		TypeInfo columnType = fieldTypeInfos.getLast();
