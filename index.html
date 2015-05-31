@@ -74,15 +74,15 @@ Main issue they are facing is to convert the existing mainframe file layouts to 
 
 <h3>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example:</h3>
-<bold>Input Mainframe file:</bold><br>
-<code>
+<b>Input Mainframe file:</b><br>
+
 Ram Manohar 10123123123123123123123123123123king
 heheh        5012012012012012comment
 Lip i        3001001001darling
 Kanu         6006006006006006006loving
-</code>
-<br><bold>Cobol Layout:</bold><br>
-<code>
+
+<br><b>Cobol Layout:</b><br>
+
 01 WS-VAR. 
    05 WS-NAME PIC X(12). 
    05 WS-MARKS-LENGTH PIC 9(2). 
@@ -90,14 +90,14 @@ Kanu         6006006006006006006loving
       10 WS-MARK PIC 999. 
    05 WS-NICKNAME PIC X(6)
 </code>
-<br><bold>Hive DDL:</bold><br>
+<br><b>Hive DDL:</b><br>
 <code>
 CREATE TABLE Cobol2Hive
 ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
 LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
 TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
 </code>
-<br><bold>Outptut:</bold><br>
+<br><b>Outptut:</b><br>
 <code>
 select * from Cobol2Hive;
 OK
