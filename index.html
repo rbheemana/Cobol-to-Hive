@@ -100,10 +100,10 @@ Main issue they are facing is to convert the existing mainframe file layouts to 
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example:</h3>
 <b>Input Mainframe file:</b><br>
 <pre>
-Ram Manohar 10123123123123123123123123123123king
+Ram Manohar  6123123123123123123king
 heheh        5012012012012012comment
 Lipi         3001001001darling
-Kanu         6006006006006006006loving
+Kanu         2006006loving
 </pre>
 <br><b>Cobol Layout:</b><br>
 <pre>
@@ -119,37 +119,26 @@ Kanu         6006006006006006006loving
 CREATE TABLE Cobol2Hive
 ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
 LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
-TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
 </pre>
 <br><b>Outptut:</b><br>
 <pre>
 select * from Cobol2Hive;
 OK
-Ram Manohar 	[{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},{"ws_mark":123},"ws_mark":123}]	king
-heheh       	[{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12},{"ws_mark":12}]	comment
-Lipi        	[{"ws_mark":1},{"ws_mark":1},{"ws_mark":1}]	darlin
-Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6}]	loving
+ws_name       ws_marks_length ws_mark ws_mark_1 ws_mark_2 ws_mark_3 ws_mark_4 ws_mark_5 ws_nickname 
+Ram Manohar 	6               123     123       123       123       123       123   	  king
+heheh       	5               12      12        12        12        12        null      comment
+Lipi        	3               1       1         1         null      null      null      darling
+Kanu        	2               6       6         null      null      null      null    	loving
 </pre>
 
 
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>Author: <a href="https://github.com/rbheemana" class="user-mention">@rbheemana</a> </p>
 
         </article>
       </div>
 </div>
-    <footer>
-      <div class="owner">
-      <p><a href="https://github.com/rbheemana" class="avatar"><img src="https://avatars1.githubusercontent.com/u/12659735?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/rbheemana">rbheemana</a> maintains <a href="https://github.com/rbheemana/Cobol-to-Hive">Cobol-to-hive</a></p>
-
-
-      </div>
-      <div class="creds">
-        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
-      </div>
-    </footer>
+    
   </div>
   <div class="current-section">
     <a href="#top">Scroll to top</a>
@@ -180,5 +169,19 @@ Kanu        	[{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark":6},{"ws_mark"
         </aside>
       </div>
     </div>
+    <h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>Author: <a href="https://github.com/rbheemana" class="user-mention">@rbheemana</a> </p>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/rbheemana" class="avatar"><img src="https://avatars1.githubusercontent.com/u/12659735?v=3&amp;s=60" width="48" height="48"></a> <a href="https://github.com/rbheemana">rbheemana</a> maintains <a href="https://github.com/rbheemana/Cobol-to-Hive">Cobol-to-hive</a></p>
+
+
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br>theme by <a href="https://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
   </body>
 </html>
