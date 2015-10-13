@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Small Steps of Main to BIG by rbheemana</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Small Steps of Main to BIG</h1>
+        <h2>Serde for Cobol Layout to Hive table</h2>
+        <a href="https://github.com/rbheemana/Cobol-to-Hive" class="button"><small>View project on</small> GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h3>
+<a id="conversion-of-mainframe-data-to-hadoop-distributed-data" class="anchor" href="#conversion-of-mainframe-data-to-hadoop-distributed-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>Conversion of Mainframe data to Hadoop distributed data:</h3>
+
+<p>This thought poses with two basic questions:
+1. How to transfer the data from mainframe to Hadoop?
+2. Once transferred, how to interpret the data?</p>
+
+<p>Before answering above questions lets examine if there is any advantage in going through this path.  </p>
+
+<h3>
+<a id="for-who-is-it-useful" class="anchor" href="#for-who-is-it-useful" aria-hidden="true"><span class="octicon octicon-link"></span></a>For who is it useful?</h3>
+
+<p>Currently, there are multiple banking and insurance industries who are trying to implement their business models on Hadoop </p>
+
+<p>technologies. For almost all the Hadoop projects there will be a source system file which resides on the Mainframe (hard fact) and that needs to brought over to Hadoop. This process is identified by Sqoop team and tried to create Mainframe file extraction process similar to Database but that is not useful for though. I would redirect the demerits of sqoop mainframe extraction to this Blog but my point here is to highlight the significance of the conversion.</p>
+
+<p>This conversion is difficult because we need to establish a translator between different eras of programming models. Once talks EBCIDIC and other ASCII :-)</p>
+
+<h3>
+<a id="pain-areas" class="anchor" href="#pain-areas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pain-Areas:</h3>
+
+<p>Below is short-list I could come up with:
+<br>1. Data representation conversion from EBCDIC format (Mainframe) to ASCII (JAVA/HADOOP). This is complex because of direct conversion fails because of presence of COMP-3 fileds
+<br>2. Field separations are based on offset(Mainframe) instead of separators(HADOOP). 
+<br>3. Dynamic arrays declartion in mainframe is complex to convert. Dyanic Array length is stored in a field which needs to read first before reading the actual data in array. (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )
+<br>4. REDEFINES in mainframes is conceptually similar to UNION in C++ but varies a lot is implementation. 
+<br>5. File Formats in mainframe are Variable length and Fixed Length which needs to handled differently.
+<br>6. Folder structure in mainframes is hard to visualize
+<br>7. File versions in mainframes (GDG) is a cool feature but hard to handle in HADOOP. 
+<br>8. Last but not least Computational-Fields conversion.</p>
+
+<p>What!!! Not enough issues to start working on.</p>
+
+<h3>
+<a id="enough-complaining-tell-me-what-industry-is-doing-now" class="anchor" href="#enough-complaining-tell-me-what-industry-is-doing-now" aria-hidden="true"><span class="octicon octicon-link"></span></a>Enough complaining.. Tell me what Industry is doing now!!</h3>
+
+<p>Hmm.. :-( Most of the industries are adding additional layers in between mainframe and hadoop to convert the formats. And some are converting mainframes files to desired formats in mainframe systems and then transferring. Others are using Tools like Informatica Power Exchange, SYNCSORT DMX-h etc.</p>
+
+<h3>
+<a id="my-approach" class="anchor" href="#my-approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>My Approach</h3>
+
+<p>Develop a custom Serde which exhibits below properties:<br>
+1. Cobol Layout is supplied through TBL PROPERTIES similar to AvroSerde and it will build the hive table definition automatically.<br>
+2. Deserailzer should be able to extract the field data based on the offset at runtime.<br>
+3. EBCDIC to ASCII to conversion is handled internally<br>
+4. ....<br></p>
+
+<h3>
+<a id="benefits" class="anchor" href="#benefits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Benefits:</h3>
+
+<ol>
+<li>Easier migration from mainframe systems to hadoop<br>
+</li>
+<li>Removal of additional layers.<br>
+</li>
+<li>Faster processing time.<br>
+</li>
+<li>Cost saving because my approach is an open source. YAYYY!!<br>
+</li>
+</ol>
+
+<h3>
+<a id="glimpse-of-final-usage" class="anchor" href="#glimpse-of-final-usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Glimpse of final usage:</h3>
+
+<p>Mainframe Input File (will be in EBCIDIC format which is unreadable, converted for example purpose)</p>
+
+<pre><code>Ram Manohar  6123123123123123123king
+heheh        5012012012012012comment
+Lipi         3001001001darling
+Kanu         2006006loving
+</code></pre>
+
+<p>Cobol Layout:</p>
+
+<pre><code>01 WS-VAR. 
+   05 WS-NAME PIC X(12). 
+   05 WS-MARKS-LENGTH PIC 9(2). 
+   05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+      10 WS-MARK PIC 999. 
+   05 WS-NICKNAME PIC X(6)
+</code></pre>
+
+<p>Hive DDL:</p>
+
+<pre><code>CREATE TABLE Cobol2Hive
+ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
+LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
+TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING 
+
+ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');
+</code></pre>
+
+<p>Output:</p>
+
+<pre><code>select * from Cobol2Hive;
+OK
+ws_name       ws_marks_length ws_mark ws_mark_1 ws_mark_2 ws_mark_3 ws_mark_4 ws_mark_5 ws_nickname 
+Ram Manohar     6               123     123       123       123       123       123       king
+heheh           5               12      12        12        12        12        null      comment
+Lipi            3               1       1         1         null      null      null      darling
+Kanu            2               6       6         null      null      null      null      loving
+</code></pre>
+
+<h3>
+<a id="comments" class="anchor" href="#comments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comments</h3>
+
+<p>Want to leave a comment? Visit <a href="https://github.com/izuzak/izuzak.github.com/issues/%7B%7Bpage.commentIssueId%7D%7D"> this post's issue </a></p>
+
+<p>page on GitHub (you'll need a GitHub account. What? Like you already don't have one?!).</p>
+
+<h3>
+<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
+
+<p>Author: <a href="https://github.com/rbheemana">@rbheemana</a> </p>
+      <div>
+      <p><a href="https://github.com/rbheemana">&lt;img src="</a><a href="https://avatars1.githubusercontent.com/u/12659735">https://avatars1.githubusercontent.com/u/12659735</a>?</p>
+
+<p>v=3&amp;s=60" width="48" height="48"&gt; <a href="https://github.com/rbheemana">rbheemana</a> maintains &lt;a </p>
+
+<p>href="<a href="https://github.com/rbheemana/Cobol-to-Hive%22%3ECobol-to-hive">https://github.com/rbheemana/Cobol-to-Hive"&gt;Cobol-to-hive</a></p>
+</div>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/rbheemana/Cobol-to-Hive/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/rbheemana/Cobol-to-Hive/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/rbheemana/Cobol-to-Hive"></a> is maintained by <a href="https://github.com/rbheemana">rbheemana</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
