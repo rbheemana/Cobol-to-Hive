@@ -129,7 +129,7 @@ public class CobolDeserializer {
 			if (columnProperty.get("comp")==3){ 
 				int decimalLocation = 0;
 				if (columnProperty.containsKey("decimal"))
-					decimalLocation = columnProperty.get("decimal");
+					decimalLocation = columnProperty.get("decimal") + 2;
 			
 				s1=unpackData(fieldBytes,decimalLocation);
 			}
