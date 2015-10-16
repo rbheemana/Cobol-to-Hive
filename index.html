@@ -82,15 +82,15 @@
 <h3>
 <a id="pain-areas" class="anchor" href="#pain-areas" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pain-Areas:</h3>
 
-<p>Below is short-list I could come up with:
-<br>1. Data representation conversion from EBCDIC format (Mainframe) to ASCII (JAVA/HADOOP). This is complex because of direct conversion fails because of presence of COMP-3 fileds
-<br>2. Field separations are based on offset(Mainframe) instead of separators(HADOOP). 
-<br>3. Dynamic arrays declartion in mainframe is complex to convert. Dyanic Array length is stored in a field which needs to read first before reading the actual data in array. (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )
-<br>4. REDEFINES in mainframes is conceptually similar to UNION in C++ but varies a lot is implementation. 
-<br>5. File Formats in mainframe are Variable length and Fixed Length which needs to handled differently.
-<br>6. Folder structure in mainframes is hard to visualize
-<br>7. File versions in mainframes (GDG) is a cool feature but hard to handle in HADOOP. 
-<br>8. Last but not least Computational-Fields conversion.</p>
+<p>Below is short-list I could come up with:</p><ol>
+<br><li> Data representation conversion from EBCDIC format (Mainframe) to ASCII (JAVA/HADOOP). This is complex because of direct conversion fails because of presence of COMP-3 fileds
+<br></li><li> Field separations are based on offset(Mainframe) instead of separators(HADOOP). 
+<br></li><li> Dynamic arrays declartion in mainframe is complex to convert. Dyanic Array length is stored in a field which needs to read first before reading the actual data in array. (For Eg: WS-FIELD OCCURS 1 TO 50 TIMES DEPENDING ON WS-FIELD-LENGTH. )
+<br></li><li> REDEFINES in mainframes is conceptually similar to UNION in C++ but varies a lot is implementation. 
+<br></li><li> File Formats in mainframe are Variable length and Fixed Length which needs to handled differently.
+<br></li><li> Folder structure in mainframes is hard to visualize
+<br></li><li> File versions in mainframes (GDG) is a cool feature but hard to handle in HADOOP. 
+<br></li><li> Last but not least Computational-Fields conversion.</li></ol>
 
 <p>What!!! Not enough issues to start working on.</p>
 
@@ -102,11 +102,12 @@
 <h3>
 <a id="my-approach" class="anchor" href="#my-approach" aria-hidden="true"><span class="octicon octicon-link"></span></a>My Approach</h3>
 
-<p>Develop a custom Serde which exhibits below properties:<br>
-1. Cobol Layout is supplied through TBL PROPERTIES similar to AvroSerde and it will build the hive table definition automatically.<br>
-2. Deserailzer should be able to extract the field data based on the offset at runtime.<br>
-3. EBCDIC to ASCII to conversion is handled internally<br>
-4. ....<br></p>
+<p>Develop a custom Serde which exhibits below properties:</p>
+<ol>
+<li>Cobol Layout is supplied through TBL PROPERTIES similar to AvroSerde and it will build the hive table definition automatically.<br>
+</li><li>Deserailzer should be able to extract the field data based on the offset at runtime.<br>
+</li><li>EBCDIC to ASCII to conversion is handled internally<br>
+</li><li>....</li><br></ol>
 
 <h3>
 <a id="benefits" class="anchor" href="#benefits" aria-hidden="true"><span class="octicon octicon-link"></span></a>Benefits:</h3>
