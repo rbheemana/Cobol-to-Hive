@@ -24,10 +24,13 @@ public class FTPtoHDFS
 	public static void main(String[] args) throws IOException,
 			URISyntaxException {
 		JobConf job = new JobConf(FTPtoHDFS.class);
-
-		job.set("mapreduce.mainframe.input.dataset.name", args[0]);
-		DBConfiguration.configureDB(job, "manu", "ftp address",
-				"uid", "pwd");
+		job.set("mapreduce.jdbc.url",args[0]);
+		job.set("mapreduce.jdbc.username",args[1]);
+		job.set("mapreduce.jdbc.password",args[2]);
+		job.set("mapreduce.mainframe.input.dataset.name", args[3]);
+		
+		DBConfiguration.configureDB(job, "manu", job.get(DBConfiguration.URL_PROPERTY),
+				job.get(DBConfiguration.USERNAME_PROPERTY), job.get(DBConfiguration.PASSWORD_PROPERTY));
 		ftp = MainframeFTPClientUtils.getFTPConnection(job);
 		ftp.setFileType(FTP.BINARY_FILE_TYPE);
 		ftp.featureValue("LITERAL SITE RDW");
@@ -41,7 +44,7 @@ public class FTPtoHDFS
 
 		FileSystem fileSystem = FileSystem.get(job);
 		java.util.Date date = new java.util.Date();
-		OutputStream outputStream = fileSystem.create(new Path(args[1]));
+		OutputStream outputStream = fileSystem.create(new Path(args[4]));
 		System.out.println("FTP Start Time : "
 				+ (new Timestamp(date.getTime())));
 		IOUtils.copyBytes(inputStream, outputStream, job, true);
