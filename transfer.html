@@ -35,11 +35,11 @@
 <a id="transfer-of-mainframe-file-to-hdfs" class="anchor" href="#transfer-of-mainframe-file-to-hdfs" aria-hidden="true"><span class="octicon octicon-link"></span></a>Transfer of mainframe file to HDFS</h3>
 
 <p>Generally, when we need a file from other systems to hadoop, we get the data to edge using FTP/SFTP/CURL etc protocols.
-But when you are FTPing the data from mainframe system (Ofcourse mainframe ftp port should be opened) you need to extra careful to download the data the binary format. This is required since the mainframe uses EBCDIC encoding. One could argue to convert the file to ASCII while FTPing the data. That would work perfectly fine if the file that you are downloading has no usage of any computational fields. Examples of such are copybooks, code, plain text, etc. Problem arises when the data consists of computational fields, one should convert data to ASCII excluding these fields. This action become complicated as the position of the such fields can only be determined by its layout.</p>
+But when you are FTPing the data from mainframe system (Ofcourse mainframe ftp port should be opened) you need to extra careful to download the data in binary format. This is required since the mainframe uses EBCDIC encoding. One could argue to convert the file to ASCII while FTPing the data. That would work perfectly fine if the file that you are downloading has no usage of any computational fields. Examples of such are copybooks, code, plain text, etc. Problem arises when the data consists of computational fields, one should convert data to ASCII excluding these fields. This action become complicated as the position of the such fields can only be determined by its layout.</p>
 
-<p>For now lets import the mainframe data without converting to ASCII, that is in EBCIDIC format. We can achieve this by copying the data to edgenode whatever protocol is common between two systems and then using hdfs dfs -put command to transfer to HDFS.</p>
+<p>I recommend importing the mainframe data without converting to ASCII, that is in EBCIDIC format. We can achieve this by copying the data in binary format to edgenode using whatever protocol that is common between two systems and then using hdfs dfs -put command to transfer to HDFS. Or use my approach.</p>
 
-<p>Personally, I have written simple java program to connect to mainframe system using FTP Client API and bring the data directly to the HDFS.</p>
+<p>Assuming FTP protocol is most common, I have written simple java program to connect to mainframe system using FTP Client API and bring the data directly to the HDFS.</p>
 
 <h3>
 <a id="usage-of-my-program-to-ftp-the-file" class="anchor" href="#usage-of-my-program-to-ftp-the-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage of my program to FTP the file</h3>
