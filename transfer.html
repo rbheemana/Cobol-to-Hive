@@ -44,13 +44,11 @@ But when you are FTPing the data from mainframe system (Ofcourse mainframe ftp p
 <h3>
 <a id="usage-of-my-program-to-ftp-the-file" class="anchor" href="#usage-of-my-program-to-ftp-the-file" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage of my program to FTP the file</h3>
 
-<p>'''''
-export 
-export
-export
-export
-jar CobolSerde.jar  
-'''''</p>
+<p>
+`````
+hadoop jar CobolSerde.jar com/savy3/util/FTPtoHDFS {Mainframe FTP server:port} {userid} {pwd} {Mainframe file name} {hadoop file location}  
+`````
+</p>
 
 <h3>
 <a id="code-logic" class="anchor" href="#code-logic" aria-hidden="true"><span class="octicon octicon-link"></span></a>Code Logic</h3>
