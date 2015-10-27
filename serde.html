@@ -27,7 +27,7 @@
        var cavatarlink = data[i].user.avatar_url;
        var cdate = Date.parse(data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
  
-       $("#comments").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + cavatarlink + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ cuserlink + "\">" + cuser + "</a><a class='commentdate' href=\"" + clink + "\">" + cdate + "</a></div><div class='commentbody'>" + cbody + "</div></div>");
+       $("#comments1").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + cavatarlink + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ cuserlink + "\">" + cuser + "</a><a class='commentdate' href=\"" + clink + "\">" + cdate + "</a></div><div class='commentbody'>" + cbody + "</div></div>");
      }
     }
   
@@ -189,6 +189,7 @@ Below is mapping where n and m are any numbers</p>
  <hr>            <a  href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html" style="float: left;"> << 02 Transfer from Mainframe to HDFS </a>
           <a href="http://rbheemana.github.io/Cobol-to-Hive/serde.html" style="float: right;"> 03 Cobol to Hive Serde </a>
           <br>
+          <div id="comments1">
 <h3><a id="comments" class="anchor" href="#comments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comments</h3>
 
 <p>Want to leave a comment? Visit <a href="https://github.com/rbheemana/Cobol-to-Hive/issues/1"> this post's issue </a>page on GitHub (you'll need a GitHub account. What? Like you already don't have one?!).</p>
@@ -212,7 +213,7 @@ Below is mapping where n and m are any numbers</p>
         </aside>
       </div>
     </div>
-
+</div>
 
   
   </body>
