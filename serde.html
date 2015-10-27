@@ -65,7 +65,7 @@
 <a id="cobol-to-hive-serde" class="anchor" href="#cobol-to-hive-serde" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cobol-to-Hive Serde</h3>
 
 <p>Cobol-to-Hive serde requires<ol>
-<li> Mainframe files to be in their raw format (Transfer the file as binary). See  <a  href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html" style="float: left;">here</a> for more
+<li> Mainframe files to be in their raw format (Transfer the file as binary). See  <a  href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html">here</a> for more
 </li><li> Cobol layout needs to be provided</li></ol></p>
 
 <h3>
@@ -83,7 +83,7 @@ Mainfame file format FB or VB needs to specified in DDL using input format.
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
 
 <p>FB file -</p>
-<code>
+<pre><code>
      CREATE TABLE Cobol2Hive
      ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
      STORED AS
@@ -91,16 +91,17 @@ Mainfame file format FB or VB needs to specified in DDL using input format.
      OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
      LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
      TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook',
-                           'fb.length'='450');</code>
+                           'fb.length'='450');
+</code></pre>
 <p>VB file - </p>
-<code>
+<pre><code>
      CREATE TABLE Cobol2Hive
      ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
      STORED AS
      INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'
      OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
      LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
-     TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</code>
+     TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</code></pre>
 
 <h3>
 <a id="how-to-provide-cobol-layoutcopybook" class="anchor" href="#how-to-provide-cobol-layoutcopybook" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to provide Cobol layout/copybook</h3>
@@ -134,26 +135,27 @@ For example: WS-NAME will be converted as WS_NAME in hive.</p>
 
 <p>Cobol field are preceeded  with a level number. Every field with level number will be converted to corresponding column.
 Duplicate names are possible in cobol layout, in such scenarios serde will create a new column name by suffixing with number.
-For example:</p> <code>
+For example:</p><pre><code>
   ... 
   05 FILLER X(10). 
   05 FILLER X(20). 
-  </code>
+  </code></pre>
  <p> will be converted as FILLER and FILLER_1 columns in hive</p>
 
 <h4>
 <a id="redefines-clause" class="anchor" href="#redefines-clause" aria-hidden="true"><span class="octicon octicon-link"></span></a>Redefines clause</h4>
 
 <p>Cobol layout contains redefines clause which is similar to union clause. For simplicity purposes we will create seperate columns.
-For example:</p> <code> 05 WS-RED  PIC X(4). 
-               05 WS-VAR REDEFINES WS-RED.
-                  10 WS-VAR1 PIC X(2).
-                  10 WS-VAR2 PIC X(2). </code>
+For example:</p> <pre><code> 
+        05 WS-RED  PIC X(4). 
+        05 WS-VAR REDEFINES WS-RED.
+           10 WS-VAR1 PIC X(2).
+           10 WS-VAR2 PIC X(2). </code></pre>
 <p>will be converted to </p> <br>
-<code>
+<pre><code>
 WS_RED  string, 
 WS_VAR1 string, 
-                     WS_VAR2 string</code>
+WS_VAR2 string</code></pre>
                      <br>
 <p>If the value of this field is "CHAR" then table will have data as below:</p>
 <code>WS_RED  WS_VAR1 WS_VAR2
