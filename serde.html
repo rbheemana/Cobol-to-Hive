@@ -31,7 +31,7 @@
      }
     }
   
-    $.ajax("https://github.com/rbheemana/Cobol-to-Hive/issues/1/comments", {
+    $.ajax("https://api.github.com/repos/rbheemana/Cobol-to-Hive/issues/1/comments", {
       headers: {Accept: "application/vnd.github.full+json"},
      success: function(msg){
        loadComments(msg);
