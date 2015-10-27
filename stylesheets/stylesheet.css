@@ -11,7 +11,9 @@ html {
   -webkit-text-size-adjust: 100%; /* 2 */
   -ms-text-size-adjust: 100%; /* 2 */
 }
-
+th, td {
+    padding: 15px;
+}
 /**
  * Remove default margin.
  */
@@ -598,7 +600,7 @@ th {
 
 td {
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   border: 1px solid #ebebeb;
 }
 
