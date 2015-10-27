@@ -199,7 +199,9 @@ Below is mapping where n and m are any numbers</p>
     function loadComments(data) {
 
       $("#comments1").append(data[0].body);
+      $("#comments1").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + data[0].user.avatar_url + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ "https://www.github.com/" + data[0].user.login+ "\">"  + "</a><a class='commentdate' href=\""  + "\">"  + "</a></div><div class='commentbody'>" + data[0].body + "</div></div>");
        for (var i=0; i<data.length; i++) {
+         $("#comments1").append(data[i].body);
         var cuser = data[i].user.login;
         var cuserlink = "https://www.github.com/" + data[i].user.login;
         var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/1#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
