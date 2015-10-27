@@ -204,11 +204,15 @@ Below is mapping where n and m are any numbers</p>
          $("#comments1").append(data[i].body);
         var cuser = data[i].user.login;
         var cuserlink = "https://www.github.com/" + data[i].user.login;
+        $("#comments1").append(cuserlink);
         var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/1#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
+      $("#comments1").append(clink);
        var cbody = data[i].body;
+       $("#comments1").append(cbody);
        var cavatarlink = data[i].user.avatar_url;
+       $("#comments1").append(cavatarlink);
        var cdate = Date.parse(data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
- 
+  $("#comments1").append(cdate);;
        $("#comments1").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + cavatarlink + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ cuserlink + "\">" + cuser + "</a><a class='commentdate' href=\"" + clink + "\">" + cdate + "</a></div><div class='commentbody'>" + cbody + "</div></div>");
      }
     }
