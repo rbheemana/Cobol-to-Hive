@@ -15,7 +15,37 @@
 
     <title>Small Steps of Main to BIG by rbheemana</title>
   </head>
-
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  
+  <script type="text/javascript">
+    function loadComments(data) {
+     // ...
+    }
+  
+    $.ajax("https://github.com/rbheemana/Cobol-to-Hive/issues/1/comments", {
+      headers: {Accept: "application/vnd.github.full+json"},
+     success: function(msg){
+       loadComments(msg);
+    }
+   });
+ </script>
+  <script type="text/javascript" src="http://datejs.googlecode.com/svn/trunk/build/date-en-US.js"></script>
+  
+  <script type="text/javascript">
+  
+    function loadComments(data) {
+      for (var i=0; i<data.length; i++) {
+        var cuser = data[i].user.login;
+        var cuserlink = "https://www.github.com/" + data[i].user.login;
+        var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/1#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
+       var cbody = data[i].body_html;
+       var cavatarlink = data[i].user.avatar_url;
+       var cdate = Date.parse(data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
+ 
+       $("#comments").append("<div class='comment'><div class='commentheader'><div class='commentgravatar'>" + '<img src="' + cavatarlink + '" alt="" width="20" height="20">' + "</div><a class='commentuser' href=\""+ cuserlink + "\">" + cuser + "</a><a class='commentdate' href=\"" + clink + "\">" + cdate + "</a></div><div class='commentbody'>" + cbody + "</div></div>");
+     }
+   }
+ </script>
   <body>
     <header>
       <div class="inner">
@@ -49,7 +79,8 @@ For VB file use<code>INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'</code
 <h4>
 <a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example</h4>
 
-<p>FB file - 
+<p>FB file -
+<code>
      CREATE TABLE Cobol2Hive
      ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
      STORED AS
@@ -57,26 +88,29 @@ For VB file use<code>INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'</code
      OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
      LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
      TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook',
-                           'fb.length'='450');
+                           'fb.length'='450');</code>
 VB file - 
+<code>
      CREATE TABLE Cobol2Hive
      ROW FORMAT SERDE 'com.savy3.cobolserde.CobolSerde' 
      STORED AS
      INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'
      OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
      LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
-     TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</p>
+     TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</code></p>
 
 <h3>
 <a id="how-to-provide-cobol-layoutcopybook" class="anchor" href="#how-to-provide-cobol-layoutcopybook" aria-hidden="true"><span class="octicon octicon-link"></span></a>How to provide Cobol layout/copybook</h3>
 
 <p>Current version supports 2 options
 cobol.layout.url -- for which cobol layout/copybook needs to be in hdfs and location needs to provided for this option
-Example: TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</p>
+Example: 
+<code>TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook');</code></p>
 
 <p>cobol.layout.literal -- for which cobol layout needs to be typed in DDL statement. there is limit of 100 characters
-Example : TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING 
-ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');</p>
+Example : 
+<code>TBLPROPERTIES ('cobol.layout'='01 WS-VAR. 05 WS-NAME PIC X(12). 05 WS-MARKS-LENGTH PIC 9(2). 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING 
+ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)');</code></p>
 
 <h3>
 <a id="how-cobol-copy-book-is-intrepreted" class="anchor" href="#how-cobol-copy-book-is-intrepreted" aria-hidden="true"><span class="octicon octicon-link"></span></a>How cobol copy book is intrepreted?</h3>
@@ -97,19 +131,27 @@ For example: WS-NAME will be converted as WS_NAME in hive.</p>
 
 <p>Cobol field are preceeded  with a level number. Every field with level number will be converted to corresponding column.
 Duplicate names are possible in cobol layout, in such scenarios serde will create a new column name by suffixing with number.
-For example: "... 05 FILLER X(10). 05 FILLER X(20). " will be converted as FILLER and FILLER_1 columns in hive</p>
+For example: <code>
+  ... 
+  05 FILLER X(10). 
+  05 FILLER X(20). 
+  </code>
+  will be converted as FILLER and FILLER_1 columns in hive</p>
 
 <h4>
 <a id="redefines-clause" class="anchor" href="#redefines-clause" aria-hidden="true"><span class="octicon octicon-link"></span></a>Redefines clause</h4>
 
 <p>Cobol layout contains redefines clause which is similar to union clause. For simplicity purposes we will create seperate columns.
-For example: " 05 WS-RED  PIC X(4). 
+For example: <code> 05 WS-RED  PIC X(4). 
                05 WS-VAR REDEFINES WS-RED.
                   10 WS-VAR1 PIC X(2).
-                  10 WS-VAR2 PIC X(2). "
-will be converted to WS_RED  string, 
-                     WS_VAR1 string, 
-                     WS_VAR2 string<br>
+                  10 WS-VAR2 PIC X(2). </code>
+will be converted to  <br>
+<code>
+WS_RED  string, 
+WS_VAR1 string, 
+                     WS_VAR2 string</code>
+                     <br>
 If the value of this field is "CHAR" then table will have data as below:
 WS_RED  WS_VAR1 WS_VAR2
 CHAR    CH      AR</p>
@@ -118,17 +160,19 @@ CHAR    CH      AR</p>
 <a id="occurs-clause" class="anchor" href="#occurs-clause" aria-hidden="true"><span class="octicon octicon-link"></span></a>OCCURS clause</h4>
 
 <p>Cobol layout contains occurs clause which is similar to arrays. For simplicity purposes each instance is converted to seperate column based on the number of instances.
-For example: " 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING ON WS-MARKS-LENGTH. 
+For example: 
+<code> 05 WS-marks OCCURS 0 to 6 TIMES DEPENDING ON WS-MARKS-LENGTH. 
                   10 WS-MARK PIC 999. 
-               05 WS-NICKNAME PIC X(6)."
+               05 WS-NICKNAME PIC X(6).</code>
 will be converted to 
+<code>
                  WS_MARK     int, 
                  WS_MARK1    int,
                  WS_MARK2    int,
                  WS_MARK3    int,
                  WS_MARK4    int,
                  WS_MARK5    int,
-                 WS_NICKNAME string           </p>
+                 WS_NICKNAME string   </code>        </p>
 
 <h3>
 <a id="field-type-conversions" class="anchor" href="#field-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Field Type Conversions</h3>
@@ -142,7 +186,14 @@ PIC 9(n)                            tinyint     if n =19
 PIC 9(m)V9(n)                       DECIMAL(m,n)
 PIC 9(n) COMP-3             tinyint     if n =19
 PIC 9(m)V9(n) COMP-3        DECIMAL(m,n)</p>
-        </section>
+ <hr> <a  href="http://rbheemana.github.io/Cobol-to-Hive/" style="float: left;">  01 Introduction </a>
+          <a href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html" style="float: right;"> 02 Transfer from Mainframe to HDFS >> </a>
+          <br>
+<h3><a id="comments" class="anchor" href="#comments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comments</h3>
+
+<p>Want to leave a comment? Visit <a href="https://github.com/rbheemana/Cobol-to-Hive/issues/1"> this post's issue </a>page on GitHub (you'll need a GitHub account. What? Like you already don't have one?!).</p>
+
+       </section>
 
         <aside id="sidebar">
           <a href="https://github.com/rbheemana/Cobol-to-Hive/zipball/master" class="button">
@@ -154,12 +205,14 @@ PIC 9(m)V9(n) COMP-3        DECIMAL(m,n)</p>
             .tar.gz file
           </a>
 
-          <p class="repo-owner"><a href="https://github.com/rbheemana/Cobol-to-Hive"></a> is maintained by <a href="https://github.com/rbheemana">rbheemana</a>.</p>
+           <p>Author: <a href="https://github.com/rbheemana">@rbheemana</a> </p>
+          <p class="repo-owner"><a href="https://github.com/rbheemana/Cobol-to-Hive"></a> is maintained by <a href="https://github.com/rbheemana"><img src="https://avatars1.githubusercontent.com/u/12659735?v=3&amp;s=60" width="48" height="48"></a>.</p>
 
           <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
         </aside>
       </div>
     </div>
+
 
   
   </body>
