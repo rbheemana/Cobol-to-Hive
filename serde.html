@@ -197,13 +197,13 @@ Below is mapping where n and m are any numbers</p>
   <script type="text/javascript">
 
     function loadComments(data) {
-      window.alert(data);
+
       $("#comments1").append(data[0].body);
        for (var i=0; i<data.length; i++) {
         var cuser = data[i].user.login;
         var cuserlink = "https://www.github.com/" + data[i].user.login;
         var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/1#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
-       var cbody = data[i].body_html;
+       var cbody = data[i].body;
        var cavatarlink = data[i].user.avatar_url;
        var cdate = Date.parse(data[i].created_at).toString("yyyy-MM-dd HH:mm:ss");
  
