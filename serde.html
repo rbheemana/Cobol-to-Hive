@@ -133,25 +133,21 @@ For example: WS-NAME will be converted as WS_NAME in hive.</p>
 
 <p>Cobol field are preceeded  with a level number. Every field with level number will be converted to corresponding column.
 Duplicate names are possible in cobol layout, in such scenarios serde will create a new column name by suffixing with number.
-For example:</p><pre><code>
-  ... 
-  05 FILLER X(10). 
-  05 FILLER X(20). 
-  </code></pre>
+For example:</p><pre><code>... 
+05 FILLER X(10). 
+05 FILLER X(20).</code></pre>
  <p> will be converted as FILLER and FILLER_1 columns in hive</p>
 
 <h4>
 <a id="redefines-clause" class="anchor" href="#redefines-clause" aria-hidden="true"><span class="octicon octicon-link"></span></a>Redefines clause</h4>
 
 <p>Cobol layout contains redefines clause which is similar to union clause. For simplicity purposes we will create seperate columns.
-For example:</p> <pre><code> 
-        05 WS-RED  PIC X(4). 
-        05 WS-VAR REDEFINES WS-RED.
-           10 WS-VAR1 PIC X(2).
-           10 WS-VAR2 PIC X(2). </code></pre>
+For example:</p> <pre><code> 05 WS-RED  PIC X(4). 
+05 WS-VAR REDEFINES WS-RED.
+   10 WS-VAR1 PIC X(2).
+   10 WS-VAR2 PIC X(2). </code></pre>
 <p>will be converted to </p> <br>
-<pre><code>
-WS_RED  string, 
+<pre><code>WS_RED  string, 
 WS_VAR1 string, 
 WS_VAR2 string</code></pre>
                      <br>
@@ -168,14 +164,13 @@ For example:  </p><pre>
                   10 WS-MARK PIC 999. 
                05 WS-NICKNAME PIC X(6).</code></pre>
 <p>will be converted to  </p>
-<pre><code>
-                 WS_MARK     int, 
-                 WS_MARK1    int,
-                 WS_MARK2    int,
-                 WS_MARK3    int,
-                 WS_MARK4    int,
-                 WS_MARK5    int,
-                 WS_NICKNAME string   </code> </pre>      
+<pre><code>WS_MARK     int, 
+WS_MARK1    int,
+WS_MARK2    int,
+WS_MARK3    int,
+WS_MARK4    int,
+WS_MARK5    int,
+WS_NICKNAME string   </code> </pre>      
 
 <h3>
 <a id="field-type-conversions" class="anchor" href="#field-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Field Type Conversions</h3>
