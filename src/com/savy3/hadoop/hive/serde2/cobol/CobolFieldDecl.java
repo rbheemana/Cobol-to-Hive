@@ -270,7 +270,8 @@ public class CobolFieldDecl {
 
 			} else {
 				this.fieldType = "decimal(" + fieldProperties.get("length")
-						* divideFactor + "," + fieldProperties.get("decimal")
+						* divideFactor + "," + (fieldProperties.get("length")
+								* divideFactor - fieldProperties.get("decimal"))
 						+ ")";
 			}
 		} catch (NumberFormatException e) {
