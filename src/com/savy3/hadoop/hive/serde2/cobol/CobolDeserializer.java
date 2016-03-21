@@ -129,13 +129,21 @@ public class CobolDeserializer {
 			if (columnProperty.get("comp")==3){ 
 				int decimalLocation = 0;
 				if (columnProperty.containsKey("decimal"))
-					decimalLocation = columnProperty.get("decimal") + 2;
+					decimalLocation = columnProperty.get("decimal") + 2 ;
 			
 				s1=unpackData(fieldBytes,decimalLocation);
 			}
 		}else{
 			byte[] temp = transcodeField(fieldBytes, Charset.forName("ebcdic-cp-us"),Charset.forName("ascii"),columnName);
 			s1 = new String(temp);
+			if (columnProperty.get("decimal") != null) {
+//				System.out.println("value in string" + s1 + "column type" + columnType.toString() 
+//						          + "decimal location" + columnProperty.get("decimal") );
+		        s1 = s1.substring(0, columnProperty.get("decimal")) + 
+		                        "." + 
+		                        s1.substring(columnProperty.get("decimal"));
+//		        System.out.println("formatted s1" + s1);
+		    }
 		}
 		
 		rowElements.add(s1);
