@@ -57,6 +57,7 @@ Mainfame file format FB or VB needs to specified in DDL using input format.
 
 <p>FB file -</p>
 <pre><code>
+ADD JAR |path|/CobolSerde.jar;
 CREATE TABLE Cobol2Hive
 ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde2.cobol.CobolSerDe' 
 STORED AS
@@ -66,7 +67,9 @@ LOCATION '/home/hduser/hive/warehouse/ram.db/lolol'
 TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.copybook',
                       'fb.length'='450');</code></pre>
 <p>VB file - </p>
-<pre><code>CREATE TABLE Cobol2Hive
+<pre><code>
+ADD JAR |path|/CobolSerde.jar;
+CREATE TABLE Cobol2Hive
 ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde2.cobol.CobolSerDe' 
 STORED AS
 INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'
