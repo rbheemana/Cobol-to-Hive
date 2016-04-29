@@ -41,7 +41,7 @@ public final class CobolSerDe extends AbstractSerDe {
 		}
 		
 		conf.set(CobolTableProperties.LAYOUT_GEN.getPropName(), this.ccb.getLayout());
-		
+		conf.set(CobolTableProperties.COBOL_HIVE.getPropName(), this.ccb.getCobolHiveMapping());
 		this.inspector = ObjectInspectorFactory
 				.getStandardStructObjectInspector(ccb.getHiveNames(),
 						ccb.getObjectInspectors());

@@ -135,4 +135,8 @@ public class CobolField implements HiveColumn{
 			return false;
 		return true;
 	}
+
+	public String getCobolHiveMapping() {
+		return this.getDebugInfo().trim()+"|"+this.name+"\t"+this.typeInfo.getTypeName()+"\t"+this.length+"|";
+	}
 }

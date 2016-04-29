@@ -147,6 +147,27 @@ public class CobolGroupField extends CobolField{
 		}
 		return cobolLayout;
 	}
+	public List<String> getCobolHiveMapping(int i) {
+		List<String> cobolLayout = new ArrayList<String>();
+		int count = occurs;
+		String s="|+"+i+"|";
+		for(int j=0;j<i;j++)
+			s+="\t";
+		cobolLayout.add(s+this.getDebugInfo().trim()+"|"+this.name+"\t"+"|");
+		while(count>0) {
+			for (CobolField cf : subfields) {
+				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
+					cobolLayout.add(s+cf.getCobolHiveMapping());
+				} else {
+					cobolLayout.add(s+cf.getDebugInfo());
+					cobolLayout.addAll(((CobolGroupField) cf)
+							.getCobolHiveMapping(i+1));
+				}
+			}
+			count--;
+		}
+		return cobolLayout;
+	}
 	public int getSize() {
 		int size=0;
 		int count = occurs;

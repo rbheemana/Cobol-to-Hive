@@ -10,6 +10,7 @@ import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 public class CobolToHive {
 	private static List<String> hiveNames = null; 
 	private static String layout = null;
+	private static String cobolHiveMapping = null;
 	private static List<TypeInfo> hiveTypesInfos = null;
 	private static List<ObjectInspector> objectInspectors = null;
 	CobolGroupField cobolCopyBook;
@@ -43,7 +44,15 @@ public class CobolToHive {
 		}
 		return layout;
 	}
-
+	public String getCobolHiveMapping() {
+		if(cobolHiveMapping == null){
+			cobolHiveMapping="";
+			for(String s:cobolCopyBook.getCobolHiveMapping(0)){
+				cobolHiveMapping+=s+"\n";
+			}
+		}
+		return cobolHiveMapping;
+	}
 	public List<TypeInfo> getHiveTypes() {
 		if(hiveTypesInfos ==null){
 			hiveTypesInfos = cobolCopyBook.getHiveColumnTypes();
