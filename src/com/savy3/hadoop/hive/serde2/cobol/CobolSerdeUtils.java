@@ -56,7 +56,8 @@ public class CobolSerdeUtils {
 		LAYOUT_LITERAL("cobol.layout.literal"), LAYOUT_URL("cobol.layout.url"), LAYOUT_NAMESPACE(
 				"cobol.layout.namespace"), LAYOUT_NAME("cobol.layout.name"), LAYOUT_DOC(
 				"cobol.layout.doc"), COBOL_SERDE_LAYOUT("cobol.serde.layout"), LAYOUT_RETRIEVER(
-				"cobol.layout.retriever"), LAYOUT_TEST("cobol.layout.test"), FB_LENGTH("fb.length");
+				"cobol.layout.retriever"), LAYOUT_TEST("cobol.layout.test"), FB_LENGTH("fb.length"),
+				LAYOUT_GEN("cobol.layout.generated"), COBOL_HIVE("cobol.hive.mapping");
 
 		private final String propName;
 

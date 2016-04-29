@@ -40,6 +40,7 @@ public class CobolCopybook {
 		 * is also included because dot can also occur in between Picture
 		 * clause.
 		 */
+		layout = layout.replaceAll("[\\t\\n\\r]", " ").replaceAll("( )+", " ").trim();
 		this.fieldLines = Arrays.asList(layout.split("\\.\\s"));
 		this.fieldNames = new LinkedList<String>();
 		this.fieldTypes = new LinkedList<String>();
@@ -65,8 +66,7 @@ public class CobolCopybook {
 		List<CobolFieldDecl> groupedColumns = new ArrayList<CobolFieldDecl>();
 		CobolFieldDecl cfd = null;
 		for (String fieldLine : fieldLines) {
-			fieldLine = fieldLine.replaceAll("[\\t\\n\\r]", " ");
-			fieldLine = fieldLine.replaceAll("( )+", " ").trim();
+			fieldLine = fieldLine.replaceAll("[\\t\\n\\r]", " ").replaceAll("( )+", " ").trim();
 			if (fieldLine.isEmpty())
 				continue;
 			cfd = new CobolFieldDecl(fieldLine);
