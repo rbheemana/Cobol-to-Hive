@@ -59,7 +59,7 @@ Mainfame file format FB or VB needs to specified in DDL using input format.
 <pre><code>
 ADD JAR |path|/CobolSerde.jar;
 CREATE TABLE Cobol2Hive
-ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde2.cobol.CobolSerDe' 
+ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe' 
 STORED AS
 INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'
 OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
@@ -70,7 +70,7 @@ TBLPROPERTIES ('cobol.layout.url'='/namenode/user/ram/cobol_layout/maincobol.cop
 <pre><code>
 ADD JAR |path|/CobolSerde.jar;
 CREATE TABLE Cobol2Hive
-ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde2.cobol.CobolSerDe' 
+ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe' 
 STORED AS
 INPUTFORMAT 'com.savy3.mapred.MainframeVBInputFormat'
 OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'
@@ -170,6 +170,17 @@ Below is mapping where n and m are any numbers</p>
  <hr>            <a  href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html" style="float: left;"> << 02 Transfer from Mainframe to HDFS </a>
           <a href="http://rbheemana.github.io/Cobol-to-Hive/serde.html" style="float: right;"> 03 Cobol to Hive Serde </a>
           <br>
+          <h3>
+<a id="Updates" class="anchor" href="#field-type-conversions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Field Type Conversions</h3>
+
+<p>Code has been updated, Below are updates</p>
+<table>
+<tr><th>New serde will generate cobol.layout.generated which shows how serde parsed the layout. Useful to verify the COBOL Layout descripancies  </th> </tr>
+<tr><th>Fixed COMP-3 issues </th> </tr>
+<tr><th>Added more debug information when serde throws exception</th> </tr>
+</table>
+<br>
+<p>For easy refernce, Jar is located @ https://github.com/rbheemana/Cobol-to-Hive/tree/gh-pages/target</p>
 <div id="comments1">
 <h3><a id="comments" class="anchor" href="#comments" aria-hidden="true"><span class="octicon octicon-link"></span></a>Comments</h3>
 
