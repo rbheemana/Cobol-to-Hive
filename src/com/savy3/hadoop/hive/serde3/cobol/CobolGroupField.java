@@ -214,7 +214,7 @@ public class CobolGroupField extends CobolField{
 						hiveColumnNames.add(cf.deserialize(rowBytes));
 						offset+=cf.getLength();
 				} else {
-					System.out.println(cf.getName());
+//					System.out.println(cf.getName());
 					hiveColumnNames.addAll(((CobolGroupField) cf)
 							.deserialize(rowBytes));
 					if(cf.getType() == CobolFieldType.REDEFINES){

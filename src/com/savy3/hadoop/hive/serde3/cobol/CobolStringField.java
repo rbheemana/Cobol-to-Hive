@@ -56,7 +56,7 @@ public class CobolStringField extends CobolField {
 	public Object deserialize(byte[] rowBytes) {
 		byte[] temp = super.transcodeField(super.getBytes(rowBytes));
 		String s1 = new String(temp);
-		System.out.println(name+"\t - "+s1+"\t:"+offset+"\t@"+length);
+//		System.out.println(name+"\t - "+s1+"\t:"+offset+"\t@"+length);
 		switch (((PrimitiveTypeInfo) this.typeInfo).getPrimitiveCategory()) {
 		case STRING:
 			return s1;

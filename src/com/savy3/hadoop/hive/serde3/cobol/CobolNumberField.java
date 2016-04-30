@@ -121,8 +121,8 @@ public class CobolNumberField extends CobolField {
 					+ s1.substring(this.length * this.divideFactor
 							- this.decimalLocation);
 		}
-		System.out.println(name + "\t - " + s1 + "\t:" + offset + "\t@"
-				+ length);
+//		System.out.println(name + "\t - " + s1 + "\t:" + offset + "\t@"
+//				+ length);
 		try {
 			switch (((PrimitiveTypeInfo) this.typeInfo).getPrimitiveCategory()) {
 			case LONG:
