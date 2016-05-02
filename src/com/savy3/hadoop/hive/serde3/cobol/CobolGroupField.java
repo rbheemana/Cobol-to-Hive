@@ -147,25 +147,43 @@ public class CobolGroupField extends CobolField{
 		}
 		return cobolLayout;
 	}
-	public List<String> getCobolHiveMapping(int i) {
+	public List<String> getCobolHiveMapping(int i) throws CobolSerdeException {
 		List<String> cobolLayout = new ArrayList<String>();
 		int count = occurs;
 		String s1="|+"+(i-1)+"|";
 		for(int j=0;j<i-1;j++)
 			s1+="\t";
-		cobolLayout.add(s1+this.getDebugInfo().trim()+"|"+this.name+"\t"+"|");
+		cobolLayout.add(s1+this.getDebugInfo().trim()+"|"+this.name+"\t"+"|"+this.offset+"|0|");
 		String s="|+"+i+"|";
 		for(int j=0;j<i;j++)
 			s+="\t";
-		
+		if(this.levelNo<2){
+			this.offset = 0;
+		}
+		if(this.type == CobolFieldType.DEPEND){
+			count = occurs;
+		}
+		int offset = this.offset+this.length;
+		if(this.type == CobolFieldType.REDEFINES){
+			try{
+				this.offset = ((CobolGrpRedefinesField)this).getRedefinesField().getOffset();
+				offset = this.offset;
+			}catch (Exception e) {
+				throw new CobolSerdeException("Error getting redefines field:"+((CobolGrpRedefinesField)this).toString());
+			}
+			
+		}
 		while(count>0) {
 			for (CobolField cf : subfields) {
+				cf.setOffset(offset);
 				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
 					cobolLayout.add(s+cf.getCobolHiveMapping());
+					offset+=cf.getLength();
 				} else {
 //					cobolLayout.add(s+cf.getDebugInfo());
 					cobolLayout.addAll(((CobolGroupField) cf)
 							.getCobolHiveMapping(i+1));
+					offset = cf.getOffset() + cf.getSize();
 				}
 			}
 			count--;

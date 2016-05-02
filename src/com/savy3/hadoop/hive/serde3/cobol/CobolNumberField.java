@@ -185,6 +185,7 @@ public class CobolNumberField extends CobolField {
 	}
 	public static String getBinary(byte[] b,int decimalPointLocation) {
 		long val = 0;
+		int first_byte = b[0] & 0x0F;
 		for (int i = 0; i < b.length; i++) {
 			int low = b[i] & 0x0F;
 			int high = (b[i] >> 4) & 0x0f;
@@ -192,13 +193,23 @@ public class CobolNumberField extends CobolField {
 				low *= -1;
 			if (high < 0)
 				high *= -1;
+			if(first_byte==15){
+				high = 15 -high;
+				low = 15 - low;
+			}
 			int num = high * 16 + low;
 			val = 256 * val + num;
 //			System.out.println("high:"+high+"LOW:"+low);
 		}
+		if(first_byte == 15){
+			val++;
+		}
 		String s = ""+val;
 		while(s.length()<b.length*2){
 			s="0"+s;
+		}
+		if(first_byte == 15){
+			s="-"+s;
 		}
 //		System.out.println(s);
 		if (decimalPointLocation > 0) {
