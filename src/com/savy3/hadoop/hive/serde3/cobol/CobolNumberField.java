@@ -18,7 +18,7 @@ public class CobolNumberField extends CobolField {
 
 	// constructor
 	public CobolNumberField(String debugInfo, int levelNo, String name,
-			String picClause, int compType) {
+			String picClause, int compType) throws CobolSerdeException {
 		this.name = name;
 		this.compType = compType;
 		this.levelNo = levelNo;
@@ -58,18 +58,7 @@ public class CobolNumberField extends CobolField {
 						"Alphanumeric Picture clause is not valid"
 								+ this.debugInfo);
 			}
-			if (this.compType == 4) {
-				if(this.length < 5)
-					this.length = 2;
-				else if(this.length < 10)
-					this.length = 4;
-				else if(this.length < 19)
-					this.length = 8;
-				else
-					throw new RuntimeException(
-							"PIC-4 length is greater than 18"
-									+ this.debugInfo);				
-			}
+			
 			this.length = (int) Math.ceil((double) this.length / divideFactor);
 			if (decimalLocation ==0) {
 				if (this.length * divideFactor < 3)
@@ -87,12 +76,29 @@ public class CobolNumberField extends CobolField {
 				fieldType = "decimal(" + this.length * divideFactor + ","
 						+ (this.decimalLocation) + ")";
 			}
+			if (this.compType == 4) {
+				if(this.length < 5)
+					this.length = 2;
+				else if(this.length < 10)
+					this.length = 4;
+				else if(this.length < 19)
+					this.length = 8;
+				else
+					throw new RuntimeException(
+							"PIC-4 length is greater than 18"
+									+ this.debugInfo);				
+			}
 		} catch (NumberFormatException e) {
 			throw e;
 		}
+		try{
 		this.typeInfo = TypeInfoUtils.getTypeInfoFromTypeString(fieldType);
 		this.oi = TypeInfoUtils
 				.getStandardJavaObjectInspectorFromTypeInfo(this.typeInfo);
+		}
+		catch(Exception e){
+			throw new CobolSerdeException(e+this.debugInfo);
+		}
 	}
 
 	@Override
