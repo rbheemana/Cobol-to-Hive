@@ -150,16 +150,20 @@ public class CobolGroupField extends CobolField{
 	public List<String> getCobolHiveMapping(int i) {
 		List<String> cobolLayout = new ArrayList<String>();
 		int count = occurs;
+		String s1="|+"+(i-1)+"|";
+		for(int j=0;j<i-1;j++)
+			s1+="\t";
+		cobolLayout.add(s1+this.getDebugInfo().trim()+"|"+this.name+"\t"+"|");
 		String s="|+"+i+"|";
 		for(int j=0;j<i;j++)
 			s+="\t";
-		cobolLayout.add(s+this.getDebugInfo().trim()+"|"+this.name+"\t"+"|");
+		
 		while(count>0) {
 			for (CobolField cf : subfields) {
 				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
 					cobolLayout.add(s+cf.getCobolHiveMapping());
 				} else {
-					cobolLayout.add(s+cf.getDebugInfo());
+//					cobolLayout.add(s+cf.getDebugInfo());
 					cobolLayout.addAll(((CobolGroupField) cf)
 							.getCobolHiveMapping(i+1));
 				}
