@@ -35,11 +35,11 @@
           <a href="http://rbheemana.github.io/Cobol-to-Hive/debug.html" style="float: right;"> 04 Trouble Shooting </a>
           <br><hr>
           <h3>
-<a id="cobol-to-hive-serde" class="anchor" href="#cobol-to-hive-serde" aria-hidden="true"><span class="octicon octicon-link"></span></a>Partial record(length = ***) found at the end of split</h3>
+<a id="cobol-to-hive-serde" class="anchor" href="#cobol-to-hive-serde" aria-hidden="true"><span class="octicon octicon-link"></span></a>Partial record (length = ***) found at the end of split</h3>
 
-<p>Cobol-to-Hive serde requires<ol>
-<li> Mainframe files to be in their raw format (Transfer the file as binary). See  <a  href="http://rbheemana.github.io/Cobol-to-Hive/transfer.html">here</a> for more
-</li><li> Cobol layout needs to be provided</li></ol></p>
+<p>If you encounter this issue, it simply means one of below
+<ol><li>Mainframe file imported is corrupted.</li>
+<li>Copybook you have for this file is not matching with length of the file</li></ol></p>
 
 
 <div id="comments1">
@@ -74,7 +74,7 @@
        for (var i=0; i<data.length; i++) {
         var cuser = data[i].user.login;
         var cuserlink = "https://www.github.com/" + data[i].user.login;
-        var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/3#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
+        var clink = "https://github.com/rbheemana/Cobol-to-Hive/issues/4#issuecomment-" + data[i].url.substring(data[i].url.lastIndexOf("/")+1);
        var cbody = data[i].body;
        var cavatarlink = data[i].user.avatar_url;
        var cdate = data[i].created_at;
