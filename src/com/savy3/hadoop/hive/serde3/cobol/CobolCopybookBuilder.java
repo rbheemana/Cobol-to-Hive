@@ -8,7 +8,7 @@ import java.util.Stack;
 
 
 public class CobolCopybookBuilder {
-	private static Stack<CobolGroupField> st = new Stack<CobolGroupField>();
+	private Stack<CobolGroupField> st = new Stack<CobolGroupField>();
 	CobolGroupField level0Field;
 
 	public CobolGroupField getCobolCopybook(String layout) throws CobolSerdeException {
