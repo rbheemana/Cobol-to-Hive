@@ -8,11 +8,12 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 
 public class CobolToHive {
-	private static List<String> hiveNames = null; 
-	private static String layout = null;
-	private static String cobolHiveMapping = null;
-	private static List<TypeInfo> hiveTypesInfos = null;
-	private static List<ObjectInspector> objectInspectors = null;
+	private List<String> hiveNames = null; 
+	private List<String> hiveComments = null;
+	private String layout = null;
+	private String cobolHiveMapping = null;
+	private List<TypeInfo> hiveTypesInfos = null;
+	private List<ObjectInspector> objectInspectors = null;
 	CobolGroupField cobolCopyBook;
 	
 	
@@ -44,7 +45,7 @@ public class CobolToHive {
 		}
 		return layout;
 	}
-	public String getCobolHiveMapping() {
+	public String getCobolHiveMapping() throws CobolSerdeException {
 		if(cobolHiveMapping == null){
 			cobolHiveMapping="";
 			for(String s:cobolCopyBook.getCobolHiveMapping(0)){
@@ -58,6 +59,12 @@ public class CobolToHive {
 			hiveTypesInfos = cobolCopyBook.getHiveColumnTypes();
 		}
 		return hiveTypesInfos;
+	}
+	public List<String> getHiveComments() throws CobolSerdeException {
+		if(hiveComments ==null){
+			hiveComments = cobolCopyBook.getHiveColumnComments(0);
+		}
+		return hiveComments;
 	}
 
 	public List<ObjectInspector> getObjectInspectors() {
