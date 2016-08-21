@@ -8,10 +8,14 @@ import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
 public class CobolFieldFactory {
 	// use getCobolField method to get object of type CobolField
-	private static final HashMap<String, CobolField> uniqueCobolField = new HashMap<String, CobolField>();
-	private static final HashMap<String, Integer> uniqueNames = new HashMap<String, Integer>();
-
+	private HashMap<String, CobolField> uniqueCobolField; // = new HashMap<String, CobolField>();
+	private HashMap<String, Integer> uniqueNames; // = new HashMap<String, Integer>();
+	CobolFieldFactory(){
+		uniqueCobolField = new HashMap<String, CobolField>();
+		uniqueNames = new HashMap<String, Integer>();
+	}
 	public CobolField getCobolField(String line) throws CobolSerdeException {
+		
 		line = line.replaceAll("[\\t\\n\\r]", " ").replaceAll("( )+", " ")
 				.trim();
 		List<String> fieldParts = Arrays.asList(line.trim().toLowerCase()
@@ -59,6 +63,9 @@ public class CobolFieldFactory {
 				if (fieldParts.indexOf("comp-4") > -1) {
 					compType = 4;
 				}
+				if (fieldParts.indexOf("comp") > -1) {
+					compType = 4;
+				}
 				cf = new CobolNumberField(line, levelNo, name, picClause,
 						compType);
 				uniqueCobolField.put(name, cf);
@@ -87,44 +94,62 @@ public class CobolFieldFactory {
 						+ line + "\n---" + uniqueCobolField.keySet().toString());
 			}
 		}
-
-		int occurTimesIndex = fieldParts.indexOf("times");
-		if (occurTimesIndex > -1) {
-			String name = getUniqueColumnName(cobolName);
-			int occurs = Integer.parseInt(fieldParts.get(occurTimesIndex - 1));
-			int occurToIndex = fieldParts.indexOf("to");
-			if (occurToIndex > -1) {
-				occurs = Integer.parseInt(fieldParts.get(occurTimesIndex - 1));
-			}
-
-			int dependIndex = fieldParts.indexOf("depending");
-			if (dependIndex > -1) {
-				String lookupField;
-				if (fieldParts.get(dependIndex + 1).equalsIgnoreCase("on")) {
-					lookupField = new String(fieldParts.get(dependIndex + 2)
-							.trim().replace('-', '_'));
-				} else {
-					lookupField = new String(fieldParts.get(dependIndex + 1)
-							.trim().replace('-', '_'));
+		int occursIndex = fieldParts.indexOf("occurs");
+		if (occursIndex > -1) {
+			int occurTimesIndex = fieldParts.indexOf("times");
+			if (occurTimesIndex > -1) {
+				String name = getUniqueColumnName(cobolName);
+				int occurs = Integer.parseInt(fieldParts
+						.get(occurTimesIndex - 1));
+				int occurToIndex = fieldParts.indexOf("to");
+				if (occurToIndex > -1) {
+					occurs = Integer.parseInt(fieldParts
+							.get(occurTimesIndex - 1));
 				}
 
-				cgf = new CobolGrpDependField(line, levelNo, name, occurs,
-						uniqueCobolField.get(lookupField));
+				int dependIndex = fieldParts.indexOf("depending");
+				if (dependIndex > -1) {
+					String lookupField;
+					if (fieldParts.get(dependIndex + 1).equalsIgnoreCase("on")) {
+						lookupField = new String(fieldParts
+								.get(dependIndex + 2).trim().replace('-', '_'));
+					} else {
+						lookupField = new String(fieldParts
+								.get(dependIndex + 1).trim().replace('-', '_'));
+					}
+
+					cgf = new CobolGrpDependField(line, levelNo, name, occurs,
+							uniqueCobolField.get(lookupField));
+					uniqueCobolField.put(name, cgf);
+					if (cf != null)
+						cgf.add(cf);
+					return cgf;
+
+				}
+				cgf = new CobolGroupField(line, levelNo, name, occurs, 0);
+				uniqueCobolField.put(name, cgf);
+				if (cf != null)
+					cgf.add(cf);
+				return cgf;
+
+			} else {
+				String name = getUniqueColumnName(cobolName);
+				int occurs = Integer.parseInt(fieldParts
+						.get(occursIndex + 1));
+				int occurToIndex = fieldParts.indexOf("to");
+				if (occurToIndex > -1) {
+					occurs = Integer.parseInt(fieldParts
+							.get(occurTimesIndex - 1));
+				}
+				cgf = new CobolGroupField(line, levelNo, name, occurs, 0);
 				uniqueCobolField.put(name, cgf);
 				if (cf != null)
 					cgf.add(cf);
 				return cgf;
 
 			}
-			cgf = new CobolGroupField(line, levelNo, name, occurs, 0);
-			uniqueCobolField.put(name, cgf);
-			if (cf != null)
-				cgf.add(cf);
-			return cgf;
 
 		}
-
-		// }
 		if (cf == null) {
 			String name = getUniqueColumnName(cobolName);
 			cf = new CobolGroupField(line, levelNo, name, 1, 0);
