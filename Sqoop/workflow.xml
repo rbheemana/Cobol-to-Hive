@@ -1,0 +1,18 @@
+<workflow-app name="wf_oozie_${env}_${app}_${table}" xmlns="uri:oozie:workflow:0.5">
+   <start to='sub_wf_oozie_common_db_ingest' />
+
+   <action name="sub_wf_oozie_common_db_ingest">
+       <sub-workflow>
+           <app-path>${hdfs_global_subworkflows}/sub_wf_db_ingest</app-path>
+           <propagate-configuration/>
+        </sub-workflow>
+        <ok to="end"/>
+        <error to="fail"/>
+   </action>
+   <kill name="fail">
+          <message>workflow failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+   </kill>
+   <end name='end' />
+</workflow-app>
+
+
