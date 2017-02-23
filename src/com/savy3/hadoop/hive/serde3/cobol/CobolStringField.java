@@ -59,8 +59,12 @@ public class CobolStringField extends CobolField {
 //		System.out.println(name+"\t - "+s1+"\t:"+offset+"\t@"+length);
 		switch (((PrimitiveTypeInfo) this.typeInfo).getPrimitiveCategory()) {
 		case STRING:
+			s1 = s1.replaceAll("\\n", " ");
+			s1 = s1.replaceAll("\\r", " ");
 			return s1;
 		case VARCHAR:
+			s1 = s1.replaceAll("\\n", " ");
+			s1 = s1.replaceAll("\\r", " ");
 			return new HiveVarchar(s1, this.length);
 			//return s1;
 		}

@@ -76,6 +76,42 @@ public class CobolGroupField extends CobolField{
 		}
 		return hiveColumnNames;
 	}
+	//getCobolHiveMapping()
+	public List<String> getHiveColumnComments(int i) throws CobolSerdeException {
+		List<String> hiveColumnComments = new ArrayList<String>();
+		int count = occurs;
+		if(this.levelNo<2){
+			this.offset = 0;
+		}
+		if(this.type == CobolFieldType.DEPEND){
+			count = occurs;
+		}
+		int offset = this.offset+this.length;
+		if(this.type == CobolFieldType.REDEFINES){
+			try{
+				this.offset = ((CobolGrpRedefinesField)this).getRedefinesField().getOffset();
+				offset = this.offset;
+			}catch (Exception e) {
+				throw new CobolSerdeException("Error getting redefines field:"+((CobolGrpRedefinesField)this).toString());
+			}
+			
+		}
+		while(count>0) {
+			for (CobolField cf : subfields) {
+				cf.setOffset(offset);
+				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
+					hiveColumnComments.add(cf.getDebugInfo().trim()+"|"+cf.getOffset()+"|"+cf.getLength());
+					offset+=cf.getLength();
+				} else {
+					hiveColumnComments.addAll(((CobolGroupField) cf)
+							.getHiveColumnComments(i+1));
+					offset = cf.getOffset() + cf.getSize();
+				}
+			}
+			count--;
+		}
+		return hiveColumnComments;
+	}
 	public List<TypeInfo> getHiveColumnTypes() {
 		List<TypeInfo> hiveColumnNames = new ArrayList<TypeInfo>();
 		int count = occurs;

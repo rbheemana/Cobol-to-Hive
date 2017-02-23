@@ -8,10 +8,14 @@ import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
 public class CobolFieldFactory {
 	// use getCobolField method to get object of type CobolField
-	private static final HashMap<String, CobolField> uniqueCobolField = new HashMap<String, CobolField>();
-	private static final HashMap<String, Integer> uniqueNames = new HashMap<String, Integer>();
-
+	private HashMap<String, CobolField> uniqueCobolField; // = new HashMap<String, CobolField>();
+	private HashMap<String, Integer> uniqueNames; // = new HashMap<String, Integer>();
+	CobolFieldFactory(){
+		uniqueCobolField = new HashMap<String, CobolField>();
+		uniqueNames = new HashMap<String, Integer>();
+	}
 	public CobolField getCobolField(String line) throws CobolSerdeException {
+		
 		line = line.replaceAll("[\\t\\n\\r]", " ").replaceAll("( )+", " ")
 				.trim();
 		List<String> fieldParts = Arrays.asList(line.trim().toLowerCase()
@@ -52,14 +56,23 @@ public class CobolFieldFactory {
 			case '-':
 			case '$':
 			case 's':
+				
 				int compType = 0;
-				if (fieldParts.indexOf("comp-3") > -1) {
+				String compField = fieldParts.get(fieldParts.size()-1).replace(".","").trim();
+				
+				//Modified how compType was being set.  Previously, if the PIC clause for the last field in a copybook ended
+				//with "COMP-3." OR "COMP-4.", compType was being incorrectly set to 0.
+
+				//if (fieldParts.indexOf("comp-3") > -1) {
+				if (compField.equals("comp-3")) {
 					compType = 3;
 				}
-				if (fieldParts.indexOf("comp-4") > -1) {
+				//if (fieldParts.indexOf("comp-4") > -1) {
+				if (compField.equals("comp-4")) {
 					compType = 4;
 				}
-				if (fieldParts.indexOf("comp") > -1) {
+				//if (fieldParts.indexOf("comp") > -1) {
+				if (compField.equals("comp")) {
 					compType = 4;
 				}
 				cf = new CobolNumberField(line, levelNo, name, picClause,
@@ -170,5 +183,4 @@ public class CobolFieldFactory {
 		}
 		return name;
 	}
-
 }

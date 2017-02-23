@@ -8,6 +8,8 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectIn
 import org.apache.hadoop.hive.serde2.typeinfo.DecimalTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.PrimitiveTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
+import org.apache.commons.codec.binary.Hex;
+
 
 import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
@@ -121,11 +123,11 @@ public class CobolNumberField extends CobolField {
 				s1 = getBinary(super.getBytes(rowBytes), this.decimalLocation);
 			}
 		} else if (this.decimalLocation > 0) {
-			s1 = s1.substring(0, this.length * this.divideFactor
-					- this.decimalLocation)
-					+ "."
-					+ s1.substring(this.length * this.divideFactor
-							- this.decimalLocation);
+ 				//Now calling unpackSign on all numeric fields for which compType resolves to 0.
+				//
+				//The function will check to see if the least significant byte has been overpunched with a sign and
+				//return a negative number if a negative sign is found.
+				s1 = unpackSign(super.getBytes(rowBytes), this.decimalLocation);
 		}
 //		System.out.println(name + "\t - " + s1 + "\t:" + offset + "\t@"
 //				+ length);
@@ -181,11 +183,38 @@ public class CobolNumberField extends CobolField {
 					+ unpackedData.substring(unpackedData.length()
 							- decimalPointLocation);
 		}
+		//System.out.println(unpackedData);
 		return unpackedData;
 	}
+
+	//Adding unpackSign to handle signed fields (sign overpunched into the least significant byte)
+	public String unpackSign(byte[] packedData, int decimalPointLocation) {
+		String unpackedData = "";
+		final int negativeSign = 13;
+		for (int currentByteIndex = 0; currentByteIndex < packedData.length; currentByteIndex++) {
+
+			int firstDigit = ((packedData[currentByteIndex] >> 4) & 0x0f);
+			int secondDigit = (packedData[currentByteIndex] & 0x0F);
+			//System.out.println("unpack_"+firstDigit+"_"+secondDigit);
+			unpackedData += String.valueOf(secondDigit);
+			if (currentByteIndex == (packedData.length - 1)) {
+				if (firstDigit == negativeSign) {
+					unpackedData = "-" + unpackedData;
+				}
+			}
+		}
+		if (decimalPointLocation > 0) {
+			unpackedData = unpackedData.substring(0,
+					(unpackedData.length() - decimalPointLocation))
+					+ "."
+					+ unpackedData.substring(unpackedData.length()
+							- decimalPointLocation);
+		}
+		return unpackedData;
+	}
+	
 	public static String getBinary(byte[] b,int decimalPointLocation) {
 		long val = 0;
-		int first_byte = b[0] & 0x0F;
 		for (int i = 0; i < b.length; i++) {
 			int low = b[i] & 0x0F;
 			int high = (b[i] >> 4) & 0x0f;
@@ -193,23 +222,13 @@ public class CobolNumberField extends CobolField {
 				low *= -1;
 			if (high < 0)
 				high *= -1;
-			if(first_byte==15){
-				high = 15 -high;
-				low = 15 - low;
-			}
 			int num = high * 16 + low;
 			val = 256 * val + num;
-//			System.out.println("high:"+high+"LOW:"+low);
-		}
-		if(first_byte == 15){
-			val++;
+//			System.out.println("LOW:"+low+"high:"+high);
 		}
 		String s = ""+val;
 		while(s.length()<b.length*2){
 			s="0"+s;
-		}
-		if(first_byte == 15){
-			s="-"+s;
 		}
 //		System.out.println(s);
 		if (decimalPointLocation > 0) {

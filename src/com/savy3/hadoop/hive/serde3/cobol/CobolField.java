@@ -4,6 +4,8 @@ import java.util.Arrays;
 
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
+import org.apache.commons.codec.binary.Hex;
+
 
 import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
@@ -86,21 +88,42 @@ public class CobolField implements HiveColumn{
 	public Object deserialize(byte[] rowBytes) throws CobolSerdeException{
 		if (this.type == CobolFieldType.STRING)
 			return ((CobolStringField)this).deserialize(rowBytes);
-		if (this.type == CobolFieldType.NUMBER)
+		if (this.type == CobolFieldType.NUMBER) {
 			return ((CobolNumberField)this).deserialize(rowBytes);
+		}
 		return null;
 		
 	}
+
+	//getBytes modified to accomodate VB multi-record formats instead of throwing an exception.  
 	protected byte[] getBytes(byte[] rowBytes){
-		if (offset + length < rowBytes.length) {
-			return Arrays.copyOfRange(rowBytes, offset, offset + length);
-		}
-		else{
-			if (offset > rowBytes.length)
-				System.out.println("Corrupted cobol layout; Offset position:"+offset+" greater than record length :"+rowBytes.length+"--"+this.toString());
-			return Arrays.copyOfRange(rowBytes, offset, rowBytes.length);
-		}
+			if (offset + length < rowBytes.length) {
+				return Arrays.copyOfRange(rowBytes, offset, offset + length);
+			}
+			else if ((offset + length == rowBytes.length) && (offset < rowBytes.length))  {
+				return Arrays.copyOfRange(rowBytes, offset, rowBytes.length);
+			}
+			else if ((offset + length > rowBytes.length) && (offset < rowBytes.length))  {
+				
+				byte [] originalBytes = Arrays.copyOfRange(rowBytes, offset, rowBytes.length);
+				
+				String zeroesStr = new String(new char[length-(rowBytes.length-offset)]).replace("\0", "0");
+				byte[] zeroes =  zeroesStr.getBytes(Charset.forName("ebcdic-cp-us"));
+
+
+				byte[] paddedBytes = new byte[originalBytes.length + zeroes.length];
+				System.arraycopy(originalBytes, 0, paddedBytes, 0, originalBytes.length);
+				System.arraycopy(zeroes, 0, paddedBytes, originalBytes.length, zeroes.length);
+				
+				return paddedBytes;
+			}
+			else {
+				String zeroesStr = new String(new char[length]).replace("\0", "0");
+				byte[] zeroes =  zeroesStr.getBytes(Charset.forName("ebcdic-cp-us"));
+				return zeroes;
+			}
 	}
+
 	public byte[] transcodeField(byte[] source) {
 		  byte[] result = new String(source, Charset.forName("ebcdic-cp-us")).getBytes(Charset.forName("ascii"));
 		  if (result.length != source.length) {
