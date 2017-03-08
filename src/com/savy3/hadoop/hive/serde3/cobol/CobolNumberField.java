@@ -9,8 +9,6 @@ import org.apache.hadoop.hive.serde2.typeinfo.DecimalTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.PrimitiveTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
-
 public class CobolNumberField extends CobolField {
 	private int compType = 0;
 	private int divideFactor = 0;
@@ -105,7 +103,7 @@ public class CobolNumberField extends CobolField {
 	public String toString() {
 		return "CobolNumberField [compType=" + compType + ", decimalLocation="
 				+ decimalLocation + ", name=" + name + ", debugInfo="
-				+ debugInfo + ", length=" + length + ", type=" + type
+				+ debugInfo + ", length=" + length + ", type=" + typeInfo
 				+ ", levelNo=" + levelNo + ", offset=" + offset + "]";
 	}
 
