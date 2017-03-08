@@ -35,7 +35,9 @@ public class CobolStringField extends CobolField {
 								+ this.debugInfo);
 			}
 		} else {
-			if (picClause.matches("x+|a+"))
+			if (picClause.trim().toLowerCase().matches("[x|a]+\\."))
+				super.length = picClause.length() -1;
+			else if (picClause.trim().toLowerCase().matches("[x|a]+"))
 				super.length = picClause.length();
 			else {
 				throw new RuntimeException(
