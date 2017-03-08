@@ -8,6 +8,7 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectIn
 import org.apache.hadoop.hive.serde2.typeinfo.DecimalTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.PrimitiveTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
+import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
 public class CobolNumberField extends CobolField {
 	private int compType = 0;
