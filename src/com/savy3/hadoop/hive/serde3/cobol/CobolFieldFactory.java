@@ -40,6 +40,8 @@ public class CobolFieldFactory {
 		// System.out.println(name);
 		
 		int picIndex = fieldParts.indexOf("pic");
+		if (picIndex == -1)
+			picIndex = fieldParts.indexOf("picture");
 		if (picIndex > -1) {
 			String name = getUniqueColumnName(cobolName);
 			String picClause = fieldParts.get(picIndex + 1);
