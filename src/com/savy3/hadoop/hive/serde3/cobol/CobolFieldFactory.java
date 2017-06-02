@@ -59,13 +59,13 @@ public class CobolFieldFactory {
 			case '$':
 			case 's':
 				int compType = 0;
-				if (fieldParts.indexOf("comp-3") > -1) {
+				if ((fieldParts.indexOf("comp-3") > -1)||(fieldParts.indexOf("comp-3.") > -1)) {
 					compType = 3;
 				}
-				if (fieldParts.indexOf("comp-4") > -1) {
+				if ((fieldParts.indexOf("comp-4") > -1)||(fieldParts.indexOf("comp-4.") > -1)) {
 					compType = 4;
 				}
-				if (fieldParts.indexOf("comp") > -1) {
+				if ((fieldParts.indexOf("comp") > -1)||(fieldParts.indexOf("comp.") > -1)) {
 					compType = 4;
 				}
 				cf = new CobolNumberField(line, levelNo, name, picClause,

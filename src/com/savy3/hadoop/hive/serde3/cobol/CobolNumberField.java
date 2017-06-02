@@ -8,7 +8,6 @@ import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectIn
 import org.apache.hadoop.hive.serde2.typeinfo.DecimalTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.PrimitiveTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
-
 import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
 public class CobolNumberField extends CobolField {
@@ -58,8 +57,11 @@ public class CobolNumberField extends CobolField {
 						"Alphanumeric Picture clause is not valid"
 								+ this.debugInfo);
 			}
-			
-			this.length = (int) Math.ceil((double) this.length / divideFactor);
+			if (this.compType == 3) {
+				this.length = (int) Math.ceil((double) (this.length +1) / divideFactor);
+			}else{
+				this.length = (int) Math.ceil((double) this.length / divideFactor);
+			}
 			if (decimalLocation ==0) {
 				if (this.length * divideFactor < 3)
 					fieldType = "tinyint";
@@ -105,7 +107,7 @@ public class CobolNumberField extends CobolField {
 	public String toString() {
 		return "CobolNumberField [compType=" + compType + ", decimalLocation="
 				+ decimalLocation + ", name=" + name + ", debugInfo="
-				+ debugInfo + ", length=" + length + ", type=" + type
+				+ debugInfo + ", length=" + length + ", type=" + typeInfo
 				+ ", levelNo=" + levelNo + ", offset=" + offset + "]";
 	}
 
