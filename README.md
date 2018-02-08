@@ -11,3 +11,12 @@ Serde for Cobol Layout to Hive table
 ```sh
 mvn package
 ```
+3. Need to add sqoop jar manually as,
+```sh
+mvn install:install-file \
+-Dfile=/location/of/sqoop.jar \
+-DgroupId=org.apache.sqoop \
+-DartifactId=sqoop \
+-Dversion=1.4.6 \
+-Dpackaging=jar
+```
