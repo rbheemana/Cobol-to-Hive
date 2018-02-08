@@ -20,3 +20,4 @@ mvn install:install-file \
 -Dversion=1.4.6 \
 -Dpackaging=jar
 ```
+4. moved main and test classes under `src/main/java` and `src/test/java`
