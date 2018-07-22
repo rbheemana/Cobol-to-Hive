@@ -5,13 +5,13 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.serde2.SerDeException;
 import org.apache.hadoop.io.Text;
 
-import com.savy3.cobolserde.CobolSerde;
+import com.savy3.hadoop.hive.serde2.cobol.CobolSerDe;
 
 import junit.framework.TestCase;
 
 
-public class testCobolSerde extends TestCase {
-	CobolSerde csd = new CobolSerde();
+public class testCobolSerDe extends TestCase {
+	CobolSerDe csd = new CobolSerDe();
 	Configuration conf = new Configuration();
 	Properties tbl = new Properties();
 	

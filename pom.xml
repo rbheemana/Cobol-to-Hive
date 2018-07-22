@@ -3,17 +3,20 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Cobol-to-Hive</groupId>
 	<artifactId>Cobol-to-Hive</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<testSourceDirectory>src/test/java</testSourceDirectory>
 		<resources>
 			<resource>
-				<directory>src</directory>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
+				<directory>src/main/resources</directory>
 			</resource>
 		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+			</testResource>
+		</testResources>
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -25,6 +28,9 @@
 			</plugin>
 		</plugins>
 	</build>
+	<properties>
+    		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.hive</groupId>
@@ -32,22 +38,26 @@
 			<version>1.0.0</version>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-core -->
+		<!-- JobConf conflicts with the other one from mapred-client-core
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-core</artifactId>
 			<version>0.20.2</version>
-		</dependency>
+		</dependency> -->
 		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapred -->
+		<!-- this is old stuff
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-mapred</artifactId>
 			<version>0.22.0</version>
-		</dependency>
+		</dependency> -->
+
 		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
 			<version>0.22.0</version>
+			<scope>provided</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
 		<dependency>
@@ -63,11 +73,25 @@
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.apache.sqoop/sqoop -->
+		<!--
 		<dependency>
 			<groupId>org.apache.sqoop</groupId>
 			<artifactId>sqoop</artifactId>
 			<version>1.4.1-incubating</version>
+		</dependency>-->
+		<!-- This is not available on maven central, so we have to download it
+			and install it as an artifact in local repo
+			mvn install:install-file \
+				-Dfile=/my/location/sqoop.jar \
+				-DgroupId=org.apache.sqoop \
+				-DartifactId=sqoop \
+				-Dversion=1.4.6 \
+				-Dpackaging=jar
+		-->
+		<dependency>
+    			<groupId>org.apache.sqoop</groupId>
+    			<artifactId>sqoop</artifactId>
+    			<version>1.4.6</version>
 		</dependency>
-
 	</dependencies>
 </project>

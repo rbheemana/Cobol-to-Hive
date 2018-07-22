@@ -1,5 +1,5 @@
 package com.savy3.testcobolserde;
-import com.savy3.cobolserde.CobolFieldDecl;
+import com.savy3.hadoop.hive.serde2.cobol.CobolFieldDecl;
 
 import junit.framework.TestCase;
 

@@ -102,7 +102,7 @@ public class MainframeVBRecordReader extends
 			decompressor = CodecPool.getDecompressor(codec);
 			CompressionInputStream cIn = codec.createInputStream(fileIn,
 					decompressor);
-			filePosition = cIn;
+			filePosition = (Seekable) cIn;
 			inputStream = cIn;
 			LOG.info("Compressed input; cannot compute number of records in the split");
 		} else {
