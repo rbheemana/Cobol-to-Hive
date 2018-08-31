@@ -37,22 +37,6 @@
 			<artifactId>hive-serde</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-core -->
-		<!-- JobConf conflicts with the other one from mapred-client-core
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-core</artifactId>
-			<version>0.20.2</version>
-		</dependency> -->
-		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-mapred -->
-		<!-- this is old stuff
-		<dependency>
-			<groupId>org.apache.hadoop</groupId>
-			<artifactId>hadoop-mapred</artifactId>
-			<version>0.22.0</version>
-		</dependency> -->
-
-		<!-- https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
@@ -88,10 +72,10 @@
 				-Dversion=1.4.6 \
 				-Dpackaging=jar
 		-->
-		<dependency>
-    			<groupId>org.apache.sqoop</groupId>
-    			<artifactId>sqoop</artifactId>
-    			<version>1.4.6</version>
-		</dependency>
+		<!--<dependency>-->
+		<!--<groupId>org.apache.sqoop</groupId>-->
+		<!--<artifactId>sqoop</artifactId>-->
+		<!--<version>1.4.6</version>-->
+		<!--</dependency>-->
 	</dependencies>
 </project>

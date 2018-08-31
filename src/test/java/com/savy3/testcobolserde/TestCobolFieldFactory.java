@@ -1,14 +1,10 @@
-package com.savy3.hadoop.hive.serde3.cobol;
+package com.savy3.testcobolserde;
 
-import static org.junit.Assert.*;
-
+import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+import com.savy3.hadoop.hive.serde3.cobol.CobolFieldFactory;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+import static org.junit.Assert.assertEquals;
 public class TestCobolFieldFactory {
 	CobolFieldFactory cff = new CobolFieldFactory();
 

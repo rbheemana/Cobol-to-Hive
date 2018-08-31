@@ -1,16 +1,17 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
+import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 
 public class CobolFieldFactory {
 	// use getCobolField method to get object of type CobolField
 	private HashMap<String, CobolField> uniqueCobolField; // = new HashMap<String, CobolField>();
 	private HashMap<String, Integer> uniqueNames; // = new HashMap<String, Integer>();
-	CobolFieldFactory(){
+
+    public CobolFieldFactory() {
 		uniqueCobolField = new HashMap<String, CobolField>();
 		uniqueNames = new HashMap<String, Integer>();
 	}
