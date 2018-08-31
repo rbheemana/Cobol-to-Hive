@@ -2,6 +2,9 @@
 Serde for Cobol Layout to Hive table
 
 #### Changes as of 2/8/2018
+1. Commented the util package so that compilation can be done without maven install.
+
+#### Changes as of 2/8/2018
 
 1. in `MainframeVBRecordReader.java`, on line 105, added cast as,
 ```java
