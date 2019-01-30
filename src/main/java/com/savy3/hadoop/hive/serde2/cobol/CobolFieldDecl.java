@@ -1,11 +1,12 @@
 package com.savy3.hadoop.hive.serde2.cobol;
 
+import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
+import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
-import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
 
 public class CobolFieldDecl {
 	int levelNo;
@@ -156,6 +157,7 @@ public class CobolFieldDecl {
 			fieldType = "string";
 			validateStringFormat();
 			break;
+            case 'n':
 		case '9':
 		case 'z':
 		case '+':
@@ -232,7 +234,7 @@ public class CobolFieldDecl {
 						new Integer((int) Math.ceil((Double.parseDouble(s[1])
 								+ s[2].length() - 1)
 								/ divideFactor)));
-				if (this.picClause.charAt(0) == '9') {
+                if (this.picClause.charAt(0) == '9' || this.picClause.charAt(0) == 'n') {
 					fieldProperties.put("decimal", Integer.parseInt(s[1]));
 				} else {
 					fieldProperties.put("decimal", Integer.parseInt(s[1]) - 1);
@@ -245,7 +247,7 @@ public class CobolFieldDecl {
 										.parseDouble(s[1]) + Integer
 										.parseInt(s[3]))
 										/ divideFactor)));
-				if (this.picClause.charAt(0) == '9') {
+                if (this.picClause.charAt(0) == '9' || this.picClause.charAt(0) == 'n') {
 					fieldProperties.put("decimal", Integer.parseInt(s[1]));
 				} else {
 					fieldProperties.put("decimal", Integer.parseInt(s[1]) - 1);
