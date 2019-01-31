@@ -1,10 +1,9 @@
 package com.savy3.testcobolserde;
 
 import com.savy3.hadoop.hive.serde2.cobol.CobolCopybook;
-
 import junit.framework.TestCase;
 
-public class testCobolCopybook extends TestCase {
+public class TestCobolCopybook extends TestCase {
 
 	CobolCopybook ccb = new CobolCopybook(
 			"01 WS-VAR. 05 WS-NAME PIC X(12). 01 ws-sudha. 05 WS-MARKS-LENGTH PIC 9(3). 05 WS-marks OCCURS 0 to 25 TIMES DEPENDING ON WS-MARKS-LENGTH. 10 WS-MARK PIC 999. 05 WS-NICKNAME PIC X(6)");
