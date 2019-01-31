@@ -4,13 +4,17 @@ import com.savy3.hadoop.hive.serde2.cobol.CobolFieldDecl;
 import junit.framework.TestCase;
 
 
-public class testCobolFieldDecl extends TestCase {
+public class TestCobolFieldDecl extends TestCase {
 
 	public void testCobolFieldDecl() {
 		CobolFieldDecl cfd = new CobolFieldDecl("01 WS-NAMES.");
 		assertEquals(cfd.getFieldName(),"ws_names");
-		CobolFieldDecl cfd1 = new CobolFieldDecl("   	01 WS-NAMES PIC .");
-		assertEquals(cfd1.getFieldName(),"ws_names");
+		try {
+			CobolFieldDecl cfd1 = new CobolFieldDecl("   	01 WS-NAMES PIC .");
+			assertEquals(cfd1.getFieldName(), "ws_names");
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Error in PIC definition");
+		}
 		try{
 			CobolFieldDecl cfd2 = new CobolFieldDecl("Ws-01 WS-NAMES.");
 			assertNotSame(cfd2.getFieldName(),"ws_names");

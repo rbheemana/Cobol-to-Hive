@@ -53,6 +53,7 @@ public class CobolFieldFactory {
 				uniqueCobolField.put(name, cf);
 				break;
 			// return cf;
+				case 'n':
 			case '9':
 			case 'z':
 			case '+':
