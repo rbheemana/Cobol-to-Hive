@@ -108,6 +108,19 @@ public class TestCobolHiveTableCreation extends TestCase {
         System.out.println("Printing metadata");
         printResultSet(res);
 
+        String tableName2 = "CobolArq1";
+        stmt.execute("drop table if exists " + tableName2);
+        stmt.execute("create table " + tableName2 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='01 D2WCLI. 05 NOME PIC X(10). 05 SOBERNOME PIC X(11). 05 IDADE PIC 9(3). 05 AMOUNT PIC S9(11)V99. 05 AMOUNT-COMP PIC S9(11)V99 COMP-3. ','fb.length'='44')");
+
+        String sql2 = ("describe " + tableName2);
+        ResultSet res2 = stmt.executeQuery(sql2);
+        System.out.println("Printing metadata");
+        printResultSet(res2);
     }
 
     public void printResultSet(ResultSet resultSet) {
