@@ -1,7 +1,5 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;

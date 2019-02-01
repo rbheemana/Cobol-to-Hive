@@ -1,11 +1,10 @@
 package com.savy3.hadoop.hive.serde3.cobol;
-import java.nio.charset.Charset;
-import java.util.Arrays;
 
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 
 public class CobolField implements HiveColumn{
 	protected String name;

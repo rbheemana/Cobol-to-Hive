@@ -1,16 +1,11 @@
 package com.savy3.hadoop.hive.serde2.cobol;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import com.savy3.hadoop.hive.serde3.cobol.CobolSerdeException;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
+
+import java.util.*;
 
 public class CobolCopybook {
 

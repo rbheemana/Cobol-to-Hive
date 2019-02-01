@@ -1,7 +1,7 @@
 package com.savy3.testcobolserde;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 import com.savy3.hadoop.hive.serde3.cobol.CobolFieldFactory;
+import com.savy3.hadoop.hive.serde3.cobol.CobolSerdeException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

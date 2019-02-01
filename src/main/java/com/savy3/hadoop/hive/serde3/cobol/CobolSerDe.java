@@ -1,8 +1,6 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import java.io.IOException;
-import java.util.Properties;
-
+import com.savy3.hadoop.hive.serde3.cobol.CobolSerdeUtils.CobolTableProperties;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.serde2.AbstractSerDe;
 import org.apache.hadoop.hive.serde2.SerDeException;
@@ -12,10 +10,9 @@ import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspectorFactory;
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.Writable;
-import org.apache.hadoop.mapred.FixedLengthInputFormat;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeUtils;
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeUtils.CobolTableProperties;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * CobolSerde is under construction currently implemented are
