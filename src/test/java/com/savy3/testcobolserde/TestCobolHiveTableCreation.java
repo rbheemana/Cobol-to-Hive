@@ -51,6 +51,185 @@ public class TestCobolHiveTableCreation extends TestCase {
             "        30 :NTTFIGRQ:-FXCPT-RULE-SET-ID REDEFINES               \n" +
             "           :NTTFIGRQ:-TRAN-BUNDLE-ID PIC X(12).                 \n" +
             "        30 :NTTFIGRQ:-BUNDLE-IND        PIC X(01).";
+    String issue19Layout = "01 DOC2.\n" +
+            "20 DOC2-V-ID PIC X(17).\n" +
+            "20 DOC2-N-DATA PIC S9(5) COMP-3.\n" +
+            "20 DOC2-VAL-DATA PIC X(100).";
+    String issue41Layout =
+            "01 OCHT-ACCUR-REC-IN.\n" +
+                    "  05 OCHNT-ACCUR-INPUT.\n" +
+                    "    10 OCHT-ACCUR-EMP.\n" +
+                    "       15  EMP-ID                   PIC X(11).\n" +
+                    "       15  EMP-TYPE-CO              PIC X(2).\n" +
+                    "       15  CEIVED-DA                PIC 9(8).\n" +
+                    "       15  ODUCT-CO                 PIC X(1).\n" +
+                    "       15  PARMNT-TY                PIC X(3).\n" +
+                    "       15  EMP-OFFICE-K             PIC 9(3).\n" +
+                    "       15  BSBR-ST-CO               PIC X(2).\n" +
+                    "       15  DICARE-PART-CO           PIC X.\n" +
+                    "       15  EAN-UNCLEAN-CO           PIC X.\n" +
+                    "       15  NTROL-N                  PIC 9(7).\n" +
+                    "       15  TO-ADJ-I                 PIC X.\n" +
+                    "       15  AR-I                     PIC X(2).\n" +
+                    "       15  TAL-ILL-A                PIC 9(5)V99.\n" +
+                    "       15  OTAL-AI-A                PIC 9(5)V99.\n" +
+                    "       15  TDENT-RELATSH            PIC X.\n" +
+                    "       15  OB-MEOD-CO               PIC X(3).\n" +
+                    "       15  EV-PD-AMN                PIC S9(5)V99\n" +
+                    "           SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  URCE-CO                  PIC X(2).\n" +
+                    "       15  NDIN                     PIC X(2).\n" +
+                    "       15  OB-TP                    PIC X.\n" +
+                    "       15  OB-ADTM                  PIC S9(5)V99\n" +
+                    "           SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  TTER-CO                  PIC X.\n" +
+                    "       15  TTER-I                   PIC X(2).\n" +
+                    "       15  ODUCT-TY                 PIC X(2).\n" +
+                    "       15  UAL-REEW-                PIC X.\n" +
+                    "       15  NTRACT-STA               PIC X(2).\n" +
+                    "       15  OV-ST-CO                 PIC X(2).\n" +
+                    "       15  AY                       PIC X.\n" +
+                    "       15  IN                       PIC X(9).\n" +
+                    "       15  UM-DTL-LIN               PIC 9(2).\n" +
+                    "       15  BSCRIBER-I               PIC X(10).\n" +
+                    "       15  VERAGE-CO                PIC X(2).\n" +
+                    "       15  TWORK                    PIC X(5).\n" +
+                    "       15  EMO-TEX                  PIC X(70).\n" +
+                    "       15  SCHRGE-STATUS-C          PIC X(2).\n" +
+                    "       15  IRST-EMP-I               PIC X(1).\n" +
+                    "       15  UB-VIEW-IN               PIC X(1).\n" +
+                    "       15  OB-CO                    PIC X(1).\n" +
+                    "       15  OB-INFO-I                PIC X(1).\n" +
+                    "       15  IMB-MTHD-C               PIC X(2).\n" +
+                    "       15  EE-SCH-I                 PIC X(9).\n" +
+                    "       15  MISSION-TY               PIC X(1).\n" +
+                    "       15  EMP-DELTION-I            PIC X(2).\n" +
+                    "       15  XP-VNDR-I                PIC X(6).\n" +
+                    "       15  ONOMY-CD                 PIC X(10).\n" +
+                    "       15  LL-PROV-N                PIC 9(10).\n" +
+                    "       15  ROV-IPA-N                PIC 9(9).\n" +
+                    "       15  ROV-PBG                  PIC 9(9).\n" +
+                    "       15  ROV-PIN                  PIC X(12).\n" +
+                    "       15  ERV-POV-NP               PIC 9(10).\n" +
+                    "       15  NIQ-PHY-I                PIC X(6).\n" +
+                    "       15  NW-CAORY-C               PIC X(8).\n" +
+                    "       15  ROF-COMP-FAC-ST-C        PIC X(2).\n" +
+                    "       15  RV-PROV-NW-TY            PIC X(3).\n" +
+                    "       15  ERV-PROV-PRACT-RO        PIC X(4).\n" +
+                    "       15  AP-NW-I                  PIC X(5).\n" +
+                    "       15  RG-WEIG                  PIC S9(06)V9(04)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  UB-DRG-CE                PIC X(5).\n" +
+                    "       15  RG-RTN-CE                PIC X(2).\n" +
+                    "       15  RG-RTN-DG-C              PIC X(6).\n" +
+                    "       15  RG-RTN-DAG-RSN-C         PIC X(2).\n" +
+                    "       15  RG-RTN-POC-C             PIC X(7).\n" +
+                    "       15  RG-RTN-POC-RSN-CD        PIC X(2).\n" +
+                    "       15  CESS-INT-DA   OCCURS 3 TIMES.\n" +
+                    "           20 CESS-INT-DAYS-C       PIC S9(4)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  CAL-TRANSBLANT-IN        PIC X(1).\n" +
+                    "       15  ISA-IND                  PIC X(1).\n" +
+                    "       15  CI-DATE                  PIC X(10).\n" +
+                    "       15  OSP-ADMSION-DAT          PIC X(10).\n" +
+                    "       15  EMP-CATORY-C             PIC X(2).\n" +
+                    "       15  FUD-RVW-IN               PIC X(1).\n" +
+                    "       15  ULANCE-ZIP-C             PIC X(5).\n" +
+                    "       15  N-PROD-I                 PIC X(11).\n" +
+                    "       15  M-COV-STS-C              PIC S9(4)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  BLAN-ID-I                PIC X(6).\n" +
+                    "       15  BLAN-EF-DA               PIC X(10).\n" +
+                    "       15  BLAN-STOP-DA             PIC X(10).\n" +
+                    "       15  BLAN-TE-CAL-OR-BE        PIC X(1).\n" +
+                    "       15  BLAN-ACCO                PIC 9(5).\n" +
+                    "       15  BLAN-SUF                 PIC 9(3).\n" +
+                    "       15  BLAN-CST-SUB             PIC X(6).\n" +
+                    "       15  EMP-USER-FI              PIC X(10).\n" +
+                    "       15  EMP-USER-FIE             PIC X(10).\n" +
+                    "       15  EMP-USER-FIEL            PIC X(10).\n" +
+                    "       15  SCHGE-ST-TY              PIC X(3).\n" +
+                    "       15  SER-ACPT-I               PIC X(10).\n" +
+                    "       15  ER-RESP-ID               PIC X(10).\n" +
+                    "       15  ER-QLTY-REV              PIC X(10).\n" +
+                    "       15  ER-PYRLSE-I              PIC X(10).\n" +
+                    "       15  EAUTH-DAT                PIC X(10).\n" +
+                    "       15  FERRAL-I                 PIC X(9).\n" +
+                    "       15  OV-REF-RSN-C             PIC X(2).\n" +
+                    "       15  M-SRVC-PREAUTH-DA        PIC S9(3)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "       15  EF-EXTS-IN               PIC X(1).\n" +
+                    "       15  EF-PROV-N                PIC X(12).\n" +
+                    "       15  EMP-REF-N                PIC X(19).\n" +
+                    "       15  UMB-ID-SEQ-NUM           PIC X(06).\n" +
+                    "       15  FILL                     PIC X(223).\n" +
+                    "    10 OCHT-ACCUR-DTL-LVL.\n" +
+                    "       15  OCHT-ACCUR-DET OCCURS 18 TIMES.\n" +
+                    "           20  BILLED-AMT     PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  ROC-COD        PIC X(7).\n" +
+                    "           20  OD1            PIC X(2).\n" +
+                    "           20  OD2            PIC X(2).\n" +
+                    "           20  OS             PIC X(2).\n" +
+                    "           20  OS-CATEG-CE PIC X(2).\n" +
+                    "           20  TOSP           PIC X(3).\n" +
+                    "           20  OUNT           PIC 9(3).\n" +
+                    "           20  ALIFIER-I      PIC 9(9).\n" +
+                    "           20  XT-RUL         PIC X(5).\n" +
+                    "           20  SRVC-FROM-DATE.\n" +
+                    "               25  SRVC-FR-DT-CCYY  PIC X(4).\n" +
+                    "               25  SRVC-FR-DT-MMDD  PIC X(4).\n" +
+                    "           20  SRVC-TO-DATE.\n" +
+                    "               25  SRVC-TO-DT-CCYY  PIC X(4).\n" +
+                    "               25  SRVC-TO-DT-MMDD  PIC X(4).\n" +
+                    "           20  INE-ITE        PIC 9(9).\n" +
+                    "           20  EV-COD         PIC X(4).\n" +
+                    "           20  RE-CERT-I      PIC X(9).\n" +
+                    "           20  MT-ALLO        PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  MT-SU          PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  MT-COI         PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  MT-COP         PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  MT-DE          PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  AY-MTH         PIC X(6).\n" +
+                    "           20  LTH-QAL-C      PIC X(3).\n" +
+                    "           20  C-RATE-AM      PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  C-RATE-RS-C    PIC X(1).\n" +
+                    "           20  RIING-CA       PIC X(3).\n" +
+                    "           20  AP-RATE-AT     PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  DCR-ASSN-C     PIC X(1).\n" +
+                    "           20  PC-C           PIC X(6).\n" +
+                    "           20  PC-ATUS-C      PIC X(1).\n" +
+                    "           20  CE-PRF-C       PIC X(1).\n" +
+                    "           20  P-ELIG-CD      PIC X(1).\n" +
+                    "           20  ANCE-CM-ID     PIC X(1).\n" +
+                    "           20  ING-SS-CD      PIC X(6).\n" +
+                    "           20  FS-SEQ-NO      PIC 9(4).\n" +
+                    "           20  J-NDC-UT       PIC S9(7)V9(3)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  DC-DG-C        PIC X(14).\n" +
+                    "           20  FR-DIS-AW-AT   PIC S9(5)V99\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  R-EX-CD        PIC X(3).\n" +
+                    "           20  R-FLAG-CD      PIC X(8).\n" +
+                    "           20  ALT-PAY-PT     PIC S9(03)V999\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  ONT-PCT        PIC S9(03)V999\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  NOT-COVED-AC OCCURS 30 TIMES.\n" +
+                    "              25 NC-ACT-C     PIC X(3).\n" +
+                    "           20  EF-NO          PIC X(9).\n" +
+                    "           20  EF-AUTH-LO     PIC S9(3)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  NIT-COUN       PIC S9(3)\n" +
+                    "               SIGN IS LEADING, SEPARATE.\n" +
+                    "           20  FILE           PIC X(64).";
 
     @Override
     public void tearDown() throws Exception {
@@ -164,6 +343,20 @@ public class TestCobolHiveTableCreation extends TestCase {
         ResultSet res3 = stmt.executeQuery(sql3);
         System.out.println("Printing metadata");
         printResultSet(res3);
+
+        String tableName4 = "Issue19";
+        stmt.execute("drop table if exists " + tableName4);
+        stmt.execute("create table " + tableName4 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + issue19Layout + "','fb.length'='44')");
+
+        String sql4 = ("describe " + tableName4);
+        ResultSet res4 = stmt.executeQuery(sql4);
+        System.out.println("Printing metadata");
+        printResultSet(res4);
     }
 
     public void printResultSet(ResultSet resultSet) {
