@@ -1,6 +1,5 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 import org.apache.hadoop.hive.common.type.HiveDecimal;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.JavaHiveDecimalObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;

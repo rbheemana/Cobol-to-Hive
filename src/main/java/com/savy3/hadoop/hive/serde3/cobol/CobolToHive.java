@@ -1,11 +1,9 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
-
-
-import java.util.List;
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
+
+import java.util.List;
 
 public class CobolToHive {
 	private List<String> hiveNames = null; 

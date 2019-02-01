@@ -1,12 +1,10 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.hadoop.hive.serde2.objectinspector.ObjectInspector;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfo;
 
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CobolGroupField extends CobolField{
 	int occurs;
@@ -54,22 +52,23 @@ public class CobolGroupField extends CobolField{
 //		return debugInfo;
 //		
 //	}
+public List<String> getHiveColumnNames() {
+	return getHiveColumnNames("");
+}
 
-	public List<String> getHiveColumnNames() {
+	public List<String> getHiveColumnNames(String suffix) {
 		List<String> hiveColumnNames = new ArrayList<String>();
 		int count = occurs;
-		//System.out.println(subfields.size());
+
 		while(count>0) {
+			String currSuffix = (occurs > 1) ? "_oc" + (occurs - count + 1) : "";
+			String finalSuffix = suffix + currSuffix;
 			for (CobolField cf : subfields) {
 				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
-					if(occurs>1){
-					hiveColumnNames.add(cf.getName()+"_oc"+(occurs-count+1));
-					}else{
-						hiveColumnNames.add(cf.getName());
-					}
+					hiveColumnNames.add(cf.getName() + finalSuffix);
 				} else {
 					hiveColumnNames.addAll(((CobolGroupField) cf)
-							.getHiveColumnNames());
+							.getHiveColumnNames(finalSuffix));
 				}
 			}
 			count--;
