@@ -7,6 +7,8 @@ import com.savy3.hadoop.hive.serde2.cobol.CobolSerDe;
 import junit.framework.TestCase;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.conf.HiveConf;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 
 import java.sql.*;
 import java.util.Properties;
@@ -55,6 +57,9 @@ public class TestCobolHiveTableCreation extends TestCase {
             "20 DOC2-V-ID PIC X(17).\n" +
             "20 DOC2-N-DATA PIC S9(5) COMP-3.\n" +
             "20 DOC2-VAL-DATA PIC X(100).";
+    String issue39Layout = "01 DETAILS.\n" +
+            "02 RATE PIC V9(6).";
+
     String issue41Layout =
             "01 OCHT-ACCUR-REC-IN.\n" +
                     "  05 OCHNT-ACCUR-INPUT.\n" +
@@ -242,6 +247,7 @@ public class TestCobolHiveTableCreation extends TestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
+        LogManager.getRootLogger().setLevel(Level.ERROR);
         hiveConf = new HiveConf();
         hiveConf.setBoolVar(HiveConf.ConfVars.HIVE_SERVER2_METRICS_ENABLED, false);
         String cwd = System.getProperty("user.dir");
@@ -357,6 +363,22 @@ public class TestCobolHiveTableCreation extends TestCase {
         ResultSet res4 = stmt.executeQuery(sql4);
         System.out.println("Printing metadata");
         printResultSet(res4);
+
+        String tableName5 = "Issue39";
+        stmt.execute("drop table if exists " + tableName5);
+        stmt.execute("create table " + tableName5 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + issue39Layout + "','fb.length'='44')");
+
+        String sql5 = ("describe " + tableName5);
+        ResultSet res5 = stmt.executeQuery(sql5);
+        System.out.println("Printing metadata");
+        printResultSet(res5);
+
+
     }
 
     public void printResultSet(ResultSet resultSet) {
