@@ -22,6 +22,35 @@ public class TestCobolHiveTableCreation extends TestCase {
     ZookeeperLocalCluster zookeeperLocalCluster = null;
     HiveLocalMetaStore hiveLocalMetaStore = null;
     HiveLocalServer2 hiveLocalServer2 = null;
+    String copyBook3 = "01 :NTTFIGRQ:-FIGN-RESP-AREA.                             \n" +
+            "   15 :NTTFIGRQ:-FEE-SECTION.                             \n" +
+            "     20 :NTTFIGRQ:-FEE-AND-CHARGES  OCCURS 5 TIMES.       \n" +
+            "        30 :NTTFIGRQ:-BILL-EVENT-TY-CD PIC X(04).         \n" +
+            "        30 :NTTFIGRQ:-BILL-RQST-CD     PIC X(01).         \n" +
+            "        30 :NTTFIGRQ:-FEE-EXEMPT-ID     PIC X(01).        \n" +
+            "        30 :NTTFIGRQ:-FEE-EXEMPT-RSN-CD PIC X(04).        \n" +
+            "        30 :NTTFIGRQ:-RULE-FEE-CD PIC X(04).                    \n" +
+            "        30 :NTTFIGRQ:-FEE-CALC-RCL-CD   PIC X(03).              \n" +
+            "        30 :NTTFIGRQ:-TOTAL-FEE         PIC S9(15)V99 COMP-3.   \n" +
+            "        30 :NTTFIGRQ:-TOTAL-INT           REDEFINES             \n" +
+            "           :NTTFIGRQ:-TOTAL-FEE         PIC S9(12)V9(05) COMP-3.\n" +
+            "        30 :NTTFIGRQ:-PERS-FEE          PIC S9(15)V99 COMP-3.   \n" +
+            "        30 :NTTFIGRQ:-FUND-BASED-ACCT-CHG REDEFINES             \n" +
+            "           :NTTFIGRQ:-PERS-FEE          PIC S9(15)V99 COMP-3.   \n" +
+            "        30 :NTTFIGRQ:-IBD-BASED-ACCT-CHG  REDEFINES             \n" +
+            "           :NTTFIGRQ:-PERS-FEE          PIC S9(15)V99 COMP-3.   \n" +
+            "        30 :NTTFIGRQ:-PERS-INT           REDEFINES              \n" +
+            "           :NTTFIGRQ:-PERS-FEE          PIC S9(12)V9(05) COMP-3.\n" +
+            "        30 :NTTFIGRQ:-IBD-MARK-UP-FEE   PIC S9(15)V99 COMP-3.   \n" +
+            "        30 :NTTFIGRQ:-IBD-MARK-UP-INT      REDEFINES            \n" +
+            "           :NTTFIGRQ:-IBD-MARK-UP-FEE   PIC S9(12)V9(05) COMP-3.\n" +
+            "        30 :NTTFIGRQ:-CONTRACT-SCHD-ID  PIC X(12).              \n" +
+            "        30 :NTTFIGRQ:-EBS-REQ-ENT-ID    PIC X(12).              \n" +
+            "        30 :NTTFIGRQ:-BILL-RULE-SET-ID  PIC X(12).              \n" +
+            "        30 :NTTFIGRQ:-TRAN-BUNDLE-ID    PIC X(12).              \n" +
+            "        30 :NTTFIGRQ:-FXCPT-RULE-SET-ID REDEFINES               \n" +
+            "           :NTTFIGRQ:-TRAN-BUNDLE-ID PIC X(12).                 \n" +
+            "        30 :NTTFIGRQ:-BUNDLE-IND        PIC X(01).";
 
     @Override
     public void tearDown() throws Exception {
@@ -121,6 +150,20 @@ public class TestCobolHiveTableCreation extends TestCase {
         ResultSet res2 = stmt.executeQuery(sql2);
         System.out.println("Printing metadata");
         printResultSet(res2);
+
+        String tableName3 = "Issue51";
+        stmt.execute("drop table if exists " + tableName3);
+        stmt.execute("create table " + tableName3 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + copyBook3 + "','fb.length'='44')");
+
+        String sql3 = ("describe " + tableName3);
+        ResultSet res3 = stmt.executeQuery(sql3);
+        System.out.println("Printing metadata");
+        printResultSet(res3);
     }
 
     public void printResultSet(ResultSet resultSet) {
