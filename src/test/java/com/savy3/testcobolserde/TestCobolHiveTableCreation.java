@@ -59,8 +59,28 @@ public class TestCobolHiveTableCreation extends TestCase {
             "20 DOC2-VAL-DATA PIC X(100).";
     String issue39Layout = "01 DETAILS.\n" +
             "02 RATE PIC V9(6).";
-
-    String issue41Layout =
+    String issue45Layout = "01 DETAILS.\n" +
+            "02 PROM-FACTOR PIC S99V999 COMP3.";
+    String issue41Layout = "01  OCHT-ACCUR-DTL-LVL.\n" +
+            "               15  OCHT-ACCUR-DET OCCURS 18 TIMES.\n" +
+            "                   20  BILLED-AMT     PIC S9(5)V99\n" +
+            "                       SIGN IS LEADING, SEPARATE.\n" +
+            "                   20  ROC-COD        PIC X(7).\n" +
+            "                   20  OD1            PIC X(2).\n" +
+            "                   20  OD2            PIC X(2).\n" +
+            "                   20  OS             PIC X(2).\n" +
+            "                   20  OS-CATEG-CE PIC X(2).\n" +
+            "                   20  TOSP           PIC X(3).\n" +
+            "                   20  OUNT           PIC 9(3).\n" +
+            "                   20  ALIFIER-I      PIC 9(9).\n" +
+            "                   20  XT-RUL         PIC X(5).\n" +
+            "                   20  SRVC-FROM-DATE.\n" +
+            "                       25  SRVC-FR-DT-CCYY  PIC X(4).\n" +
+            "                       25  SRVC-FR-DT-MMDD  PIC X(4).\n" +
+            "                   20  SRVC-TO-DATE.\n" +
+            "                       25  SRVC-TO-DT-CCYY  PIC X(4).\n" +
+            "                       25  SRVC-TO-DT-MMDD  PIC X(4)";
+    String issue41LayoutFull =
             "01 OCHT-ACCUR-REC-IN.\n" +
                     "  05 OCHNT-ACCUR-INPUT.\n" +
                     "    10 OCHT-ACCUR-EMP.\n" +
@@ -378,6 +398,32 @@ public class TestCobolHiveTableCreation extends TestCase {
         System.out.println("Printing metadata");
         printResultSet(res5);
 
+        String tableName6 = "Issue45";
+        stmt.execute("drop table if exists " + tableName6);
+        stmt.execute("create table " + tableName6 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + issue45Layout + "','fb.length'='44')");
+
+        String sql6 = ("describe " + tableName6);
+        ResultSet res6 = stmt.executeQuery(sql6);
+        System.out.println("Printing metadata");
+        printResultSet(res6);
+        String tableName7 = "Issue41";
+        stmt.execute("drop table if exists " + tableName7);
+        stmt.execute("create table " + tableName7 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + issue41Layout + "','fb.length'='44')");
+
+        String sql7 = ("describe " + tableName7);
+        ResultSet res7 = stmt.executeQuery(sql7);
+        System.out.println("Printing metadata");
+        printResultSet(res7);
 
     }
 
