@@ -137,6 +137,7 @@ public class CobolFieldFactory {
                 case 'a':
                     return new CobolStringField(line, levelNo, name, picClause);
                 // return cf;
+                case 'v':
                 case 'n':
                 case '9':
                 case 'z':
