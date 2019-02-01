@@ -1,14 +1,14 @@
 package com.savy3.hadoop.hive.serde3.cobol;
 
-import java.math.BigDecimal;
-
+import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
 import org.apache.hadoop.hive.common.type.HiveDecimal;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.JavaHiveDecimalObjectInspector;
 import org.apache.hadoop.hive.serde2.objectinspector.primitive.PrimitiveObjectInspectorFactory;
 import org.apache.hadoop.hive.serde2.typeinfo.DecimalTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.PrimitiveTypeInfo;
 import org.apache.hadoop.hive.serde2.typeinfo.TypeInfoUtils;
-import com.savy3.hadoop.hive.serde2.cobol.CobolSerdeException;
+
+import java.math.BigDecimal;
 
 public class CobolNumberField extends CobolField {
 	private int compType = 0;
@@ -122,13 +122,21 @@ public class CobolNumberField extends CobolField {
 			}else if(this.compType == 4){
 				s1 = getBinary(super.getBytes(rowBytes), this.decimalLocation);
 			}
-		} else if (this.decimalLocation > 0) {
-			s1 = s1.substring(0, this.length * this.divideFactor
-					- this.decimalLocation)
-					+ "."
-					+ s1.substring(this.length * this.divideFactor
-							- this.decimalLocation);
+		} //} else if (this.decimalLocation > 0) {
+		else {
+			//Now calling unpackSign on all numeric fields for which compType resolves to 0.
+			//
+			//The function will check to see if the least significant byte has been overpunched with a sign and
+			//return a negative number if a negative sign is found.
+			s1 = unpackSign(super.getBytes(rowBytes), this.decimalLocation);
 		}
+//		else if (this.decimalLocation > 0) {
+//			s1 = s1.substring(0, this.length * this.divideFactor
+//					- this.decimalLocation)
+//					+ "."
+//					+ s1.substring(this.length * this.divideFactor
+//							- this.decimalLocation);
+//		}
 //		System.out.println(name + "\t - " + s1 + "\t:" + offset + "\t@"
 //				+ length);
 		try {
@@ -213,4 +221,29 @@ public class CobolNumberField extends CobolField {
 		return s;
 	}
 
+	//Adding unpackSign to handle signed fields (sign overpunched into the least significant byte)
+	public String unpackSign(byte[] packedData, int decimalPointLocation) {
+		String unpackedData = "";
+		final int negativeSign = 13;
+		for (int currentByteIndex = 0; currentByteIndex < packedData.length; currentByteIndex++) {
+
+			int firstDigit = ((packedData[currentByteIndex] >> 4) & 0x0f);
+			int secondDigit = (packedData[currentByteIndex] & 0x0F);
+			//System.out.println("unpack_"+firstDigit+"_"+secondDigit);
+			unpackedData += String.valueOf(secondDigit);
+			if (currentByteIndex == (packedData.length - 1)) {
+				if (firstDigit == negativeSign) {
+					unpackedData = "-" + unpackedData;
+				}
+			}
+		}
+		if (decimalPointLocation > 0) {
+			unpackedData = unpackedData.substring(0,
+					(unpackedData.length() - decimalPointLocation))
+					+ "."
+					+ unpackedData.substring(unpackedData.length()
+					- decimalPointLocation);
+		}
+		return unpackedData;
+	}
 }
