@@ -256,12 +256,20 @@ public class TestCobolHiveTableCreation extends TestCase {
                     "               SIGN IS LEADING, SEPARATE.\n" +
                     "           20  FILE           PIC X(64).";
     String getIssue39Layout1 = "01  D2WCLIE-DETALHE.\n" +
-            "            02 NOME                               PIC X(10).\n" +
-            "            02 SOBRENOME                          PIC X(11).\n" +
-            "            02 IDADE                              PIC 9(3).\n" +
-            "            02 SALDO                              PIC S9(11)V99.\n" +
-            "            02 SALDO-COMP                         PIC S9(11)V99\n" +
-            "                                                      USAGE COMP-3.";
+            "            02 GRP1.\n" +
+            "            05 NOME                               PIC X(10).\n" +
+            "            05 SOBRENOME                          PIC X(11).\n" +
+            "            05 IDADE                              PIC 9(3).\n" +
+            "            05 SALDO                              PIC S9(11)V99.\n" +
+            "            05 SALDO-COMP                         PIC S9(11)V99\n" +
+            "                                                      USAGE COMP-3.\n" +
+            " 01  D2WCLIE-DETALHE-2.\n" +
+            "            05 NOME                               PIC X(10).\n" +
+            "            05 SOBRENOME                          PIC X(11).\n" +
+            "            05 IDADE                              PIC 9(3).\n" +
+            "            05 SALDO                              PIC S9(11)V99.\n" +
+            "            05 SALDO-COMP                         PIC S9(11)V99\n" +
+            "                                                      USAGE COMP-3.\n";
 
     @Override
     public void tearDown() throws Exception {
@@ -442,8 +450,9 @@ public class TestCobolHiveTableCreation extends TestCase {
                 " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
                 " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
                 " LOCATION '" + table8Location + "'" +
-                " TBLPROPERTIES ('cobol.layout.literal'='" + getIssue39Layout1 + "','fb.length'='44','cobol.field.ignorePattern'='nome')" +
-                "");
+                " TBLPROPERTIES ('cobol.layout.literal'='" + getIssue39Layout1 + "','fb.length'='44'" +
+                ",'cobol.field.ignorePattern'='nome.*'" +
+                ")");
 
         String sql8 = ("describe " + tableName8);
         ResultSet res8 = stmt.executeQuery(sql8);

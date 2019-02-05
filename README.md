@@ -21,3 +21,5 @@ mvn package
 6. Added support to ignore fields based on java regex pattern supplied via 'cobol.field.ignorePattern'='JAVA_REGEX_PATTERN'
 
     ex: 'cobol.field.ignorePattern'='filler*'
+
+7. Added support for multiple 01 levels
