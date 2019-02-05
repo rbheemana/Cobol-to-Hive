@@ -1,10 +1,8 @@
 # Cobol-to-Hive
 Serde for Cobol Layout to Hive table
 
-#### Changes as of 2/8/2018
-1. Commented the util package so that compilation can be done without maven install.
 
-#### Changes as of 2/8/2018
+#### Latest Updates
 
 1. in `MainframeVBRecordReader.java`, on line 105, added cast as,
 ```java
@@ -14,13 +12,11 @@ Serde for Cobol Layout to Hive table
 ```sh
 mvn package
 ```
-3. Need to add sqoop jar manually as,
-```sh
-mvn install:install-file \
--Dfile=/location/of/sqoop.jar \
--DgroupId=org.apache.sqoop \
--DartifactId=sqoop \
--Dversion=1.4.6 \
--Dpackaging=jar
-```
-4. moved main and test classes under `src/main/java` and `src/test/java`
+3. Commented the util package so that compilation can be done without maven install.
+
+4. Added support for PIC clause starting with v Ex: v9(6)
+
+5. Fixed issue for signed decimals.
+
+6. Added support to ignore fields based on java regex pattern supplied via 'cobol.field.ignorePattern'='<java regex pattern>'
+ex: 'cobol.field.ignorePattern'='filler*'

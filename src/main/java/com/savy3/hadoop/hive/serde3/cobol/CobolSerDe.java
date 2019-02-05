@@ -30,8 +30,14 @@ public final class CobolSerDe extends AbstractSerDe {
 
 		try {
 			CobolCopybookBuilder ccbb = new CobolCopybookBuilder();
-			this.ccb = new CobolToHive(ccbb.getCobolCopybook(
-					CobolSerdeUtils.determineLayoutOrThrowException(conf, tbl)));
+			String ignoreColumnPattern = tbl.getProperty(CobolTableProperties.IGNORE_COLUMN_PATTERN.getPropName());
+			if (ignoreColumnPattern == null) {
+				this.ccb = new CobolToHive(ccbb.getCobolCopybook(
+						CobolSerdeUtils.determineLayoutOrThrowException(conf, tbl)));
+			} else {
+				this.ccb = new CobolToHive(ccbb.getCobolCopybook(
+						CobolSerdeUtils.determineLayoutOrThrowException(conf, tbl)), ignoreColumnPattern);
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
