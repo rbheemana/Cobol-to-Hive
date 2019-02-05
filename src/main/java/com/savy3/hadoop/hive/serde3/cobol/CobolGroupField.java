@@ -289,4 +289,53 @@ public List<String> getHiveColumnNames() {
 		}
 		return hiveColumnNames;
 	}
+
+	public List<Object> deserialize(byte[] rowBytes, String ignoreFieldPattern) throws CobolSerdeException {
+		List<Object> hiveColumnNames = new ArrayList<Object>();
+		int count = occurs;
+		if (this.levelNo < 2) {
+			this.offset = 0;
+		}
+		if (this.type == CobolFieldType.DEPEND) {
+			count = Integer.parseInt(((CobolGrpDependField) this).getDependField().deserialize(rowBytes).toString());
+		}
+		int offset = this.offset + this.length;
+		if (this.type == CobolFieldType.REDEFINES) {
+			try {
+				this.offset = ((CobolGrpRedefinesField) this).getRedefinesField().getOffset();
+				offset = this.offset;
+			} catch (Exception e) {
+				throw new CobolSerdeException("Error getting redefines field:" + ((CobolGrpRedefinesField) this).toString());
+			}
+
+		}
+		//offset = this.offset+this.length;
+		while (count > 0) {
+			for (CobolField cf : subfields) {
+				cf.setOffset(offset);
+
+				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
+					if (!cf.name.matches(ignoreFieldPattern)) {
+						hiveColumnNames.add(cf.deserialize(rowBytes));
+					}
+					offset += cf.getLength();
+				} else {
+//					System.out.println(cf.getName());
+					hiveColumnNames.addAll(((CobolGroupField) cf)
+							.deserialize(rowBytes, ignoreFieldPattern));
+					if (cf.getType() == CobolFieldType.REDEFINES) {
+						offset = ((CobolGrpRedefinesField) cf).getRedefinesField().getOffset() +
+								((CobolGrpRedefinesField) cf).getRedefinesField().getSize();
+//						System.out.println(((CobolGrpRedefinesField)cf).getRedefinesField().getName()+":"+offset);
+					} else {
+						offset = cf.getOffset() + cf.getSize();
+//						System.out.println(cf.getName()+":"+offset);
+
+					}
+				}
+			}
+			count--;
+		}
+		return hiveColumnNames;
+	}
 }

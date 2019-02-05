@@ -442,7 +442,7 @@ public class TestCobolHiveTableCreation extends TestCase {
                 " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
                 " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
                 " LOCATION '" + table8Location + "'" +
-                " TBLPROPERTIES ('cobol.layout.literal'='" + getIssue39Layout1 + "','fb.length'='44')" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + getIssue39Layout1 + "','fb.length'='44','cobol.field.ignorePattern'='nome')" +
                 "");
 
         String sql8 = ("describe " + tableName8);
