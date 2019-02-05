@@ -18,5 +18,6 @@ mvn package
 
 5. Fixed issue for signed decimals.
 
-6. Added support to ignore fields based on java regex pattern supplied via 'cobol.field.ignorePattern'='<java regex pattern>'
-ex: 'cobol.field.ignorePattern'='filler*'
+6. Added support to ignore fields based on java regex pattern supplied via 'cobol.field.ignorePattern'='JAVA_REGEX_PATTERN'
+
+    ex: 'cobol.field.ignorePattern'='filler*'
