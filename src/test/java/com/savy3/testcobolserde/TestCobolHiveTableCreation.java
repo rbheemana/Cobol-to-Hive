@@ -255,13 +255,20 @@ public class TestCobolHiveTableCreation extends TestCase {
                     "           20  NIT-COUN       PIC S9(3)\n" +
                     "               SIGN IS LEADING, SEPARATE.\n" +
                     "           20  FILE           PIC X(64).";
+    String getIssue39Layout1 = "01  D2WCLIE-DETALHE.\n" +
+            "            02 NOME                               PIC X(10).\n" +
+            "            02 SOBRENOME                          PIC X(11).\n" +
+            "            02 IDADE                              PIC 9(3).\n" +
+            "            02 SALDO                              PIC S9(11)V99.\n" +
+            "            02 SALDO-COMP                         PIC S9(11)V99\n" +
+            "                                                      USAGE COMP-3.";
 
     @Override
     public void tearDown() throws Exception {
         super.tearDown();
-        hiveLocalServer2.stop(true);
-        hiveLocalMetaStore.stop(true);
-        zookeeperLocalCluster.stop();
+//        hiveLocalServer2.stop(true);
+//        hiveLocalMetaStore.stop(true);
+//        zookeeperLocalCluster.stop();
     }
 
     @Override
@@ -425,6 +432,27 @@ public class TestCobolHiveTableCreation extends TestCase {
         System.out.println("Printing metadata");
         printResultSet(res7);
 
+        String tableName8 = "issue39_arq";
+        String fileSeperator = System.getProperty("file.separator");
+        String table8Location = System.getProperty("user.dir") + fileSeperator + "resources" + fileSeperator + "test_data" + fileSeperator + "issue39_arq";
+        stmt.execute("drop table if exists " + tableName8);
+        stmt.execute("create external table " + tableName8 +
+                " ROW FORMAT SERDE 'com.savy3.hadoop.hive.serde3.cobol.CobolSerDe'" +
+                " STORED AS " +
+                " INPUTFORMAT 'org.apache.hadoop.mapred.FixedLengthInputFormat'" +
+                " OUTPUTFORMAT 'org.apache.hadoop.hive.ql.io.IgnoreKeyTextOutputFormat'" +
+                " LOCATION '" + table8Location + "'" +
+                " TBLPROPERTIES ('cobol.layout.literal'='" + getIssue39Layout1 + "','fb.length'='44')" +
+                "");
+
+        String sql8 = ("describe " + tableName8);
+        ResultSet res8 = stmt.executeQuery(sql8);
+        System.out.println("Printing metadata");
+        printResultSet(res8);
+        String sql9 = ("select * from " + tableName8);
+        ResultSet res9 = stmt.executeQuery(sql9);
+        System.out.println("Printing results");
+        printResultSet(res9);
     }
 
     public void printResultSet(ResultSet resultSet) {
