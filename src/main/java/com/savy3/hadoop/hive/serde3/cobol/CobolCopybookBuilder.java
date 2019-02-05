@@ -42,7 +42,7 @@ public class CobolCopybookBuilder {
 			CobolField cf = cff.getCobolField(fieldLine);
 			// System.out.println(cf.getName());
 			if (cf != null) {
-				if (pcf == null) {// First element
+				if (pcf == null || cf.getLevelNo() < 2) {// First element
 					if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
 						throw new CobolSerdeException(
 								"First Field in the copybook is not Group field"
@@ -61,7 +61,7 @@ public class CobolCopybookBuilder {
 					}
 				}
 				// current element is elementary
-				if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
+				else if (cf.getType().isInGroup(CobolFieldType.Group.ELEMENTARY)) {
 					cgcf = getGroupField(cf.getLevelNo());
 					cgcf.add(cf);
 					st.push(cgcf);
